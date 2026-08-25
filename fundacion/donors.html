@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Foundations – Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+html,body{height:100%;background:#f4f7ff;color:#0f172a;overflow:hidden;}
+.app{display:flex;height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:240px;flex-shrink:0;background:linear-gradient(168deg,#071d5e 0%,#0d2878 18%,#1a4a94 50%,#1e62b0 72%,#2478cc 100%);display:flex;flex-direction:column;overflow:hidden;}
+.sb-top{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);}
+.sb-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.sb-brand img{width:36px;filter:brightness(0) invert(1);}
+.sb-brand span{font-size:1rem;font-weight:800;color:#fff;}
+.sb-user{margin-top:12px;padding:9px 11px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;gap:9px;}
+.sb-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1a6fc4,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.68rem;font-weight:800;flex-shrink:0;}
+.sb-uname{font-size:0.76rem;font-weight:700;color:#fff;}
+.sb-utag{font-size:0.6rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:3px;margin-top:1px;}
+.sb-utag span{width:5px;height:5px;border-radius:50%;background:#22c55e;}
+.sb-nav{flex:1;overflow-y:auto;padding:6px 0;}
+.sb-group{padding:10px 16px 3px;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,.32);text-transform:uppercase;letter-spacing:.07em;}
+.sb-nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.7);text-decoration:none;font-size:0.8rem;font-weight:500;border-left:3px solid transparent;transition:all .15s;}
+.sb-nav a:hover{color:#fff;background:rgba(255,255,255,.08);}
+.sb-nav a.active{color:#fff;background:rgba(255,255,255,.13);border-left-color:#60a5fa;font-weight:600;}
+.sb-nav a svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.sb-bottom{padding:12px;}
+.sb-tip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;}
+.sb-tip p{font-size:0.68rem;color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:8px;}
+.sb-tip a{display:block;background:#fff;color:#1a3d7a;border-radius:8px;padding:7px;font-size:0.7rem;font-weight:700;text-decoration:none;text-align:center;}
+.sb-tip a:hover{background:#dbeafe;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:56px;background:#fff;border-bottom:1px solid #e2e8f8;display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;}
+.tb-l{display:flex;align-items:center;gap:8px;}
+.tb-l img{width:24px;}
+.tb-l span{font-size:0.88rem;font-weight:700;color:#1a3d7a;}
+.tb-r{display:flex;align-items:center;gap:12px;}
+.tb-bell{width:32px;height:32px;border-radius:50%;border:1.5px solid #e2e8f8;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.tb-bell svg{width:14px;height:14px;stroke:#6b7280;fill:none;stroke-width:2;stroke-linecap:round;}
+.tb-user{display:flex;align-items:center;gap:7px;background:#f0f5ff;border-radius:20px;padding:3px 12px 3px 3px;cursor:pointer;border:1px solid #e2e8f8;}
+.tb-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1a6fc4,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.62rem;font-weight:800;}
+.tb-user span{font-size:0.76rem;font-weight:600;color:#1a3d7a;}
+.tb-user svg{width:12px;height:12px;stroke:#6b7280;fill:none;stroke-width:2;}
+
+/* CONTENT */
+.content{flex:1;overflow:hidden;display:flex;flex-direction:column;padding:20px 28px 0;}
+.page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0;}
+.page-head h1{font-size:1.3rem;font-weight:800;color:#0f172a;}
+.page-head p{font-size:0.76rem;color:#6b7280;margin-top:2px;}
+.page-head-right{font-size:0.76rem;color:#6b7280;background:#fff;border:1px solid #e2e8f8;border-radius:8px;padding:6px 12px;}
+.page-head-right strong{color:#1a6fc4;}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-shrink:0;flex-wrap:wrap;}
+.search-wrap{display:flex;align-items:center;border:1.5px solid #e2e8f8;border-radius:10px;background:#fff;overflow:hidden;flex:1;max-width:260px;}
+.search-wrap:focus-within{border-color:#1a6fc4;}
+.search-wrap svg{width:14px;height:14px;stroke:#9ca3af;fill:none;stroke-width:2;stroke-linecap:round;margin:0 10px;flex-shrink:0;}
+.search-wrap input{border:none;outline:none;padding:9px 10px 9px 0;font-size:0.78rem;font-family:'Poppins',sans-serif;color:#374151;width:100%;}
+.search-wrap input::placeholder{color:#9ca3af;}
+.filter-btn{padding:6px 13px;border-radius:20px;border:1.5px solid #e2e8f8;background:#fff;font-size:0.72rem;font-weight:600;color:#6b7280;cursor:pointer;transition:all .15s;font-family:'Poppins',sans-serif;white-space:nowrap;}
+.filter-btn:hover{border-color:#1a6fc4;color:#1a6fc4;}
+.filter-btn.active{background:#1a6fc4;border-color:#1a6fc4;color:#fff;}
+
+/* MAIN LAYOUT */
+.main-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;overflow:hidden;min-height:0;}
+
+/* FOUNDATIONS LIST */
+.foundations-panel{overflow-y:auto;padding-right:4px;padding-bottom:20px;}
+.found-grid{display:flex;flex-direction:column;gap:10px;}
+
+.found-card{background:#fff;border-radius:14px;border:1px solid #e2e8f8;box-shadow:0 1px 4px rgba(15,23,42,.04);overflow:hidden;cursor:pointer;transition:all .2s;}
+.found-card:hover{box-shadow:0 6px 18px rgba(15,23,42,.1);transform:translateY(-1px);border-color:#bfdbfe;}
+.found-card.selected{border-color:#1a6fc4;box-shadow:0 0 0 3px rgba(26,111,196,.1);}
+
+.found-card-top{padding:12px 16px;display:flex;align-items:center;gap:10px;position:relative;}
+.found-logo{width:40px;height:40px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 2px 6px rgba(15,23,42,.08);}
+.found-header{flex:1;min-width:0;}
+.found-name{font-size:0.84rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.found-location{font-size:0.65rem;display:flex;align-items:center;gap:3px;margin-top:2px;opacity:.8;}
+.found-location svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.found-verified{position:absolute;top:8px;right:10px;display:flex;align-items:center;gap:3px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:20px;padding:2px 7px;font-size:0.58rem;font-weight:700;color:#166534;}
+.found-verified svg{width:9px;height:9px;stroke:#166534;fill:none;stroke-width:2.5;stroke-linecap:round;}
+
+.found-card-body{padding:10px 16px;}
+.found-desc{font-size:0.72rem;color:#6b7280;line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.found-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
+.ftag{font-size:0.6rem;font-weight:600;padding:2px 7px;border-radius:20px;background:#f0f5ff;color:#1a3d7a;border:1px solid #e0eeff;}
+.found-stats{display:flex;gap:12px;}
+.found-stat{display:flex;align-items:center;gap:4px;font-size:0.65rem;color:#6b7280;}
+.found-stat svg{width:11px;height:11px;stroke:#9ca3af;fill:none;stroke-width:2;stroke-linecap:round;}
+.found-stat strong{color:#0f172a;font-weight:700;}
+
+.found-card-footer{padding:9px 16px;border-top:1px solid #f0f4ff;display:flex;align-items:center;justify-content:space-between;}
+.found-match{font-size:0.65rem;color:#16a34a;font-weight:600;display:flex;align-items:center;gap:3px;}
+.found-match svg{width:10px;height:10px;stroke:#16a34a;fill:none;stroke-width:2.5;stroke-linecap:round;}
+.btn-view-found{padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,#1a4a94,#2070c8);border:none;color:#fff;font-size:0.7rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;transition:opacity .15s;}
+.btn-view-found:hover{opacity:.9;}
+
+/* MAP PANEL */
+.map-panel{display:flex;flex-direction:column;gap:10px;overflow:hidden;}
+.map-box{background:#fff;border-radius:14px;border:1px solid #e2e8f8;overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:0;}
+.map-header{padding:11px 14px;border-bottom:1px solid #f0f4ff;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.map-title{font-size:0.8rem;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:6px;}
+.map-title svg{width:13px;height:13px;stroke:#1a6fc4;fill:none;stroke-width:2;stroke-linecap:round;}
+.map-sub{font-size:0.65rem;color:#6b7280;}
+#map{flex:1;min-height:0;}
+
+.found-detail{background:#fff;border-radius:14px;border:1px solid #e2e8f8;padding:14px;flex-shrink:0;display:none;}
+.found-detail.show{display:block;}
+.detail-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.detail-logo{width:36px;height:36px;border-radius:9px;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.detail-name{font-size:0.84rem;font-weight:700;color:#0f172a;}
+.detail-loc{font-size:0.65rem;color:#6b7280;display:flex;align-items:center;gap:3px;margin-top:2px;}
+.detail-loc svg{width:10px;height:10px;stroke:#6b7280;fill:none;stroke-width:2;stroke-linecap:round;}
+.detail-info{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.detail-item{background:#f8faff;border-radius:8px;padding:7px 9px;}
+.detail-item-label{font-size:0.6rem;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+.detail-item-value{font-size:0.76rem;font-weight:700;color:#0f172a;margin-top:1px;}
+.detail-actions{display:flex;gap:7px;}
+.btn-directions{flex:1;padding:8px;border-radius:8px;border:1.5px solid #1a6fc4;background:#fff;color:#1a6fc4;font-size:0.72rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .15s;}
+.btn-directions:hover{background:#1a6fc4;color:#fff;}
+.btn-directions svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.btn-donate-now{flex:1;padding:8px;border-radius:8px;background:linear-gradient(135deg,#1a4a94,#2070c8);border:none;color:#fff;font-size:0.72rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;transition:opacity .15s;}
+.btn-donate-now:hover{opacity:.9;}
+
+.leaflet-popup-content-wrapper{border-radius:12px!important;box-shadow:0 8px 24px rgba(15,23,42,.15)!important;border:none!important;padding:0!important;}
+.leaflet-popup-content{margin:0!important;}
+.map-popup{padding:12px;min-width:170px;}
+.mp-name{font-size:0.8rem;font-weight:700;color:#0f172a;margin-bottom:2px;}
+.mp-loc{font-size:0.65rem;color:#6b7280;margin-bottom:7px;}
+.mp-btn{width:100%;padding:6px;border-radius:7px;background:linear-gradient(135deg,#1a4a94,#2070c8);border:none;color:#fff;font-size:0.7rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;}
+.toast{position:fixed;right:24px;bottom:24px;background:#0f172a;color:#fff;border-radius:11px;padding:11px 15px;font-size:.74rem;font-weight:600;box-shadow:0 12px 30px rgba(15,23,42,.25);opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s;z-index:1000}
+.toast.show{opacity:1;transform:translateY(0)}
+
+.ham{display:none;position:fixed;top:14px;left:14px;z-index:120;width:38px;height:38px;border-radius:10px;background:#071d5e;border:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(7,29,94,.3);}
+.ham svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;}
+.veil{display:none;position:fixed;inset:0;background:rgba(7,29,94,.4);z-index:90;}
+.veil.on{display:block;}
+@media(max-width:1050px){[class*="grid-4"]{grid-template-columns:repeat(2,1fr)!important;}}
+@media(max-width:900px){
+  body{overflow:auto;}
+  .app{height:auto;min-height:100vh;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100vh;transform:translateX(-100%);transition:transform .25s ease;z-index:100;}
+  .sidebar.open{transform:translateX(0);box-shadow:6px 0 30px rgba(7,29,94,.25);}
+  .ham{display:flex;}
+  .main{width:100%;min-width:0;}
+  [class*="grid"]{grid-template-columns:1fr!important;}
+}
+@media(max-width:580px){
+  .content,.main>div{padding:14px!important;}
+}
+</style>
+<link rel="stylesheet" href="hope-hands-theme.css">
+<!-- Supabase: cliente + autenticación + capa de datos de perfiles -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/profiles.js"></script>
+</head>
+<body>
+<div class="app">
+<button class="ham" onclick="openSB()"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+<div class="veil" id="veil" onclick="closeSB()"></div>
+
+
+<aside class="sidebar" id="sb">
+  <div class="sb-top">
+    <a class="sb-brand" href="dashboard.html">
+      <img src="hope-hands-logo.png" alt="Hope Hands"/>
+      <span>Hope Hands</span>
+    </a>
+    <div class="sb-user">
+      <div class="sb-av js-user-initials"></div>
+      <div>
+        <div class="sb-uname js-user-name"></div>
+        <div class="sb-utag"><span></span> Online</div>
+      </div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-group">Overview</div>
+    <a href="dashboard.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+    <div class="sb-group">Discover</div>
+    <a href="foundations.html" class="active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Foundations</a>
+    <a href="campaigns.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Campaigns</a>
+    <div class="sb-group">My Activity</div>
+    <a href="impact.html"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>My Impact</a>
+    <div class="sb-group">Account</div>
+    <a href="profile.html"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</a> <a href="../login.html" onclick="return confirm('Sign out of Hope Hands?')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</a>
+  </nav>
+  <div class="sb-bottom">
+    <div class="sb-tip">
+      <p>Find a foundation near you and make your first donation today.</p>
+      <a href="campaigns.html">Browse campaigns</a>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l">
+      <img src="hope-hands-logo.png" alt="Hope Hands"/>
+      <span>Hope Hands</span>
+    </div>
+    <div class="tb-r">
+      <div class="tb-bell"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+      <div class="tb-user">
+        <div class="tb-av js-user-initials"></div>
+        <span class="js-user-name"></span>
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="page-head">
+      <div>
+        <h1>Explore Foundations</h1>
+        <p>Discover real foundations in Panama and support the causes that matter to you.</p>
+      </div>
+      <div class="page-head-right"><strong id="foundHeaderCount">0</strong> foundations registered in Panama</div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search foundations..." oninput="searchFoundations(this.value)"/>
+      </div>
+      <button class="filter-btn active" onclick="filterFounds(this,'all')">All</button>
+      <button class="filter-btn" onclick="filterFounds(this,'children')">Children</button>
+      <button class="filter-btn" onclick="filterFounds(this,'food')">Food</button>
+      <button class="filter-btn" onclick="filterFounds(this,'health')">Health</button>
+      <button class="filter-btn" onclick="filterFounds(this,'elderly')">Elderly</button>
+      <button class="filter-btn" onclick="filterFounds(this,'migrants')">Migrants</button>
+    </div>
+
+    <div class="main-layout">
+      <div class="foundations-panel">
+        <div class="found-grid" id="found-grid">
+          <p style="font-size:.8rem;color:#6b7280;padding:20px;">Loading foundations...</p>
+        </div>
+      </div>
+
+      <div class="map-panel">
+        <div class="map-box">
+          <div class="map-header">
+            <div class="map-title">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Foundations in Panama City
+            </div>
+            <span class="map-sub">Click a pin to see details</span>
+          </div>
+          <div id="map"></div>
+        </div>
+
+        <div class="found-detail" id="found-detail" style="display:none;">
+          <div class="detail-head">
+            <div class="detail-logo" id="detail-logo">🏠</div>
+            <div>
+              <div class="detail-name" id="detail-name"></div>
+              <div class="detail-loc">
+                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span id="detail-address"></span>
+              </div>
+            </div>
+          </div>
+          <div class="detail-info">
+            <div class="detail-item"><div class="detail-item-label">Active Campaigns</div><div class="detail-item-value" id="detail-camps"></div></div>
+            <div class="detail-item"><div class="detail-item-label">Products Needed</div><div class="detail-item-value" id="detail-prods"></div></div>
+            <div class="detail-item"><div class="detail-item-label">Reception Hours</div><div class="detail-item-value" id="detail-schedule">Not specified</div></div>
+            <div class="detail-item"><div class="detail-item-label">Phone</div><div class="detail-item-value" id="detail-phone">Not specified</div></div>
+          </div>
+          <div class="detail-actions">
+            <button class="btn-directions" id="btn-directions">
+              <svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              Get Directions
+            </button>
+            <button class="btn-donate-now" id="btn-donate-now">Donate Now</button>
+          </div>
+        </div>
+        <div class="found-detail" id="found-detail-empty" style="text-align:center;padding:30px 16px;color:#6b7280;font-size:.76rem;">
+          Select a foundation from the list or map to see its details.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ============================================================================
+// Conectado a Supabase (tabla "foundations", ver js/profiles.js). Ya no hay
+// un arreglo fijo de 9 fundaciones: se traen las reales, y solo las que
+// tengan latitud/longitud guardadas (ver fundacion/profile.html, que
+// geocodifica la direccion al guardar) aparecen como pin en el mapa. Las
+// que aun no tienen ubicacion igual aparecen en la lista, sin pin.
+// ============================================================================
+const map = L.map('map').setView([8.991, -79.525], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+function makeIcon() {
+  return L.divIcon({
+    html: `<div style="width:34px;height:34px;border-radius:50%;background:white;border:3px solid #1a6fc4;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 3px 10px rgba(26,111,196,.3);cursor:pointer;">🏠</div>`,
+    className:'', iconSize:[34,34], iconAnchor:[17,17], popupAnchor:[0,-20]
+  });
+}
+
+let allDonadorFoundations = [];
+function escDF(x){var d=document.createElement('div');d.textContent=x||'';return d.innerHTML;}
+
+function renderFoundationCards(list){
+  const grid = document.getElementById('found-grid');
+  document.getElementById('foundHeaderCount').textContent = allDonadorFoundations.length;
+  if(!list.length){
+    grid.innerHTML = '<p style="font-size:.8rem;color:#6b7280;padding:20px;">No foundations match this search.</p>';
+    return;
+  }
+  grid.innerHTML = list.map((f,i)=>{
+    const gradients = ['linear-gradient(135deg,#dbeafe,#dbeafecc)','linear-gradient(135deg,#dcfce7,#dcfce7cc)','linear-gradient(135deg,#fef3c7,#fef3c7cc)','linear-gradient(135deg,#fee2e2,#fee2e2cc)','linear-gradient(135deg,#f3e8ff,#f3e8ffcc)'];
+    return `<div class="found-card" data-cat="${escDF((f.category||'').toLowerCase())}" data-name="${escDF(f.name.toLowerCase())}" data-fid="${f.userId}">
+        <div class="found-card-top" style="background:${gradients[i%gradients.length]}">
+          <div class="found-logo">🏠</div>
+          <div class="found-header">
+            <div class="found-name" style="color:#1a3d7a">${escDF(f.name)}</div>
+            <div class="found-location" style="color:#1a3d7a99">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${escDF(f.address || 'Location not specified yet')}
+            </div>
+          </div>
+        </div>
+        <div class="found-card-body">
+          <p class="found-desc">${escDF(f.description || 'No description yet.')}</p>
+          <div class="found-stats">
+            <div class="found-stat"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span><strong>${f.activeCampaigns}</strong> campaigns</span></div>
+            <div class="found-stat"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span><strong>${f.donorCount}</strong> donors</span></div>
+            <div class="found-stat"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg><span><strong>${f.productsNeeded}</strong> products</span></div>
+          </div>
+        </div>
+        <div class="found-card-footer">
+          <div class="found-match"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${f.verified?'Verified foundation':'Foundation'}</div>
+          <button class="btn-view-found" data-fid="${f.userId}">View Foundation</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function showDetail(f){
+  document.getElementById('found-detail-empty').style.display = 'none';
+  document.getElementById('found-detail').style.display = '';
+  document.getElementById('detail-name').textContent = f.name;
+  document.getElementById('detail-address').textContent = f.address || 'Location not specified yet';
+  document.getElementById('detail-logo').textContent = '🏠'; 
+  document.getElementById('detail-camps').textContent = f.activeCampaigns + ' campaigns';
+  document.getElementById('detail-prods').textContent = f.productsNeeded + ' products';
+  document.getElementById('btn-directions').onclick = () => {
+    window.open('https://www.google.com/maps/search/' + encodeURIComponent((f.address||f.name) + ', Panama'), '_blank');
+  };
+  document.getElementById('btn-donate-now').onclick = () => {
+    window.location.href = 'foundation-profile.html?f=' + f.userId;
+  };
+}
+
+const mapMarkers = {};
+function renderMapMarkers(list){
+  Object.values(mapMarkers).forEach(m => map.removeLayer(m));
+  list.forEach(f => {
+    if(f.latitude == null || f.longitude == null) return;
+    const marker = L.marker([f.latitude, f.longitude], {icon: makeIcon()})
+      .addTo(map)
+      .bindPopup(`
+        <div class="map-popup">
+          <div class="mp-name">🏠 ${escDF(f.name)}</div>
+          <div class="mp-loc">📍 ${escDF(f.address||'')}</div>
+          <button class="mp-btn" data-fid="${f.userId}">View Details</button>
+        </div>
+      `);
+    mapMarkers[f.userId] = marker;
+  });
+}
+
+document.getElementById('found-grid').addEventListener('click', e => {
+  const card = e.target.closest('.found-card');
+  const btn = e.target.closest('[data-fid]');
+  const fid = btn ? btn.dataset.fid : (card ? card.dataset.fid : null);
+  if(!fid) return;
+  const f = allDonadorFoundations.find(x => x.userId === fid);
+  if(!f) return;
+  document.querySelectorAll('.found-card').forEach(c => c.classList.remove('selected'));
+  if(card) card.classList.add('selected');
+  if(f.latitude != null && f.longitude != null) map.flyTo([f.latitude, f.longitude], 15, {duration:1});
+  showDetail(f);
+});
+
+map.on('popupopen', e => {
+  const btn = e.popup.getElement().querySelector('[data-fid]');
+  if(btn) btn.addEventListener('click', () => {
+    const f = allDonadorFoundations.find(x => x.userId === btn.dataset.fid);
+    if(f) showDetail(f);
+  });
+});
+
+function searchFoundations(val) {
+  const q = val.toLowerCase();
+  const activeFilter = document.querySelector('.filter-btn.active');
+  const cat = activeFilter ? activeFilter.getAttribute('onclick').match(/'([^']*)'\)$/)[1] : 'all';
+  const list = allDonadorFoundations.filter(f => (cat==='all' || (f.category||'').toLowerCase()===cat) && f.name.toLowerCase().includes(q));
+  renderFoundationCards(list);
+}
+
+function filterFounds(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const list = allDonadorFoundations.filter(f => cat === 'all' || (f.category||'').toLowerCase() === cat);
+  renderFoundationCards(list);
+}
+
+(async function(){
+  allDonadorFoundations = await getPublicFoundationsWithStats();
+  renderFoundationCards(allDonadorFoundations);
+  renderMapMarkers(allDonadorFoundations);
+  if(allDonadorFoundations.length){
+    const withCoords = allDonadorFoundations.find(f => f.latitude != null);
+    if(withCoords) map.setView([withCoords.latitude, withCoords.longitude], 13);
+  }
+})();
+</script>
+
+<script>
+
+// getProfile() usa una copia en memoria cargada con getDonorProfile() (Supabase).
+let __hhProfile2={};
+function getProfile(){ return __hhProfile2; }
+function initials(name){return (name||'').trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();}
+function syncUserUI(){const p=getProfile();const name=(p.fullName||'').trim();document.querySelectorAll('.js-user-name').forEach(el=>el.textContent=name);document.querySelectorAll('.js-user-initials').forEach(el=>el.textContent=initials(name));}
+function showToast(message){const t=document.getElementById('toast');if(!t)return;t.textContent=message;t.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.classList.remove('show'),2600);}
+
+// Nota: el listado de fundaciones sigue siendo contenido de demostración
+// (array fijo con coordenadas para el mapa). Falta migrarlo a la tabla
+// "foundations" real (que ya tiene columnas latitude/longitude en el
+// esquema) en una próxima fase.
+(async function(){
+  const user = await requireAuth('donador', '../login-donador.html');
+  if(!user) return;
+  __hhProfile2 = await getDonorProfile();
+  syncUserUI();
+})();
+syncUserUI();
+
+</script>
+<script src="hope-hands-ui.js">function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('veil').classList.add('on');}
+function closeSB(){document.getElementById('sb').classList.remove('open');document.getElementById('veil').classList.remove('on');}
+</script><div id="toast" class="toast"></div>
+<script>
+document.querySelectorAll('.tb-bell').forEach(function(b){
+  b.addEventListener('click', function(){ showToast('No new notifications'); });
+});
+</script>
+<script>
+(function(){
+  var M={education:['#dbeafe','#1e40af'],food:['#dcfce7','#166534'],nutrition:['#dcfce7','#166534'],health:['#fee2e2','#991b1b'],medicine:['#fee2e2','#991b1b'],cancer:['#fee2e2','#991b1b'],clothing:['#f3e8ff','#6b21a8'],hygiene:['#cffafe','#155e75'],shelter:['#fef3c7','#92400e'],housing:['#fef3c7','#92400e'],elderly:['#ffedd5','#9a3412'],'elderly care':['#ffedd5','#9a3412'],care:['#ffedd5','#9a3412'],children:['#fce7f3','#9d174d'],youth:['#fce7f3','#9d174d'],community:['#e0e7ff','#3730a3'],families:['#e0e7ff','#3730a3'],support:['#e0e7ff','#3730a3'],humanitarian:['#e0e7ff','#3730a3'],migrants:['#ccfbf1','#115e59'],refugees:['#ccfbf1','#115e59'],empowerment:['#fae8ff','#86198f'],restoration:['#fae8ff','#86198f'],sustainability:['#d1fae5','#065f46'],environment:['#d1fae5','#065f46'],technology:['#e0f2fe','#075985'],animals:['#ede9fe','#5b21a6'],other:['#e2e8f0','#475569']};
+  function paint(){
+    document.querySelectorAll('.ftag,.hh-cat').forEach(function(el){
+      var c=M[el.textContent.trim().toLowerCase()];
+      if(!c) return;
+      el.style.background=c[0]; el.style.color=c[1];
+    });
+  }
+  paint();
+  new MutationObserver(paint).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+</body>
+</html>

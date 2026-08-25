@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign Up – Foundation – Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body{ display:grid; grid-template-columns:1fr 1fr; height:100vh; overflow:hidden; }
+
+/* LEFT */
+.left{
+    background:
+          radial-gradient(circle at top right,#6bc2eb 0%,transparent 35%),
+        linear-gradient(155deg,#2e76a7 0%,#264d88 55%,#2880a0 100%);
+    display:flex; flex-direction:column;
+    padding:32px 44px; position:relative; overflow:hidden;
+}
+.logo-container{
+    display:flex; align-items:center; gap:12px;
+    color:white; font-size:20px; font-weight:700;
+    text-decoration:none; z-index:2;
+}
+.logo-container img{ width:60px; filter: brightness(0) invert(1); }
+.left-body{
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; z-index:2; padding-bottom:60px;
+}
+.left-body h2{
+    font-size:clamp(1.6rem,2.8vw,2.4rem); font-weight:700;
+    color:white; line-height:1.3; margin-bottom:14px;
+}
+.left-body h2 .accent{ color:#7dd3fc; }
+.left-body p{ font-size:0.9rem; color:rgba(255,255,255,.82); line-height:1.75; max-width:300px; margin-bottom:32px; }
+.left-ilus{ width:clamp(150px,20vw,220px); z-index:2; }
+.left-waves{
+    position:absolute; bottom:0; left:0; width:100%; z-index:1;
+}
+
+/* RIGHT */
+.right{
+    background:#f8faff; display:flex; flex-direction:column;
+    align-items:center; justify-content:flex-start;
+    padding:32px 52px; overflow-y:auto;
+}
+.form-box{ width:100%; max-width:440px; }
+
+.back-link{
+    display:flex; align-items:center; gap:6px;
+    font-size:0.82rem; font-weight:500; color:#6b7280;
+    text-decoration:none; margin-bottom:22px; transition:color .15s;
+}
+.back-link:hover{ color:#1a6fc4; }
+.back-link svg{ width:15px; height:15px; }
+
+.form-title{ font-size:1.6rem; font-weight:800; color:#0f172a; line-height:1.2; margin-bottom:6px; }
+.form-title span{ color:#1a6fc4; display:block; }
+.form-sub{ font-size:0.8rem; color:#6b7280; margin-bottom:22px; line-height:1.6; }
+
+/* FIELDS */
+.field{ margin-bottom:14px; }
+.field label{ display:block; font-size:0.78rem; font-weight:600; color:#374151; margin-bottom:4px; }
+.input-wrap{
+    display:flex; align-items:center;
+    border:1.5px solid #e5e7eb; border-radius:10px;
+    overflow:hidden; background:#fff; transition:border-color .15s;
+}
+.input-wrap:focus-within{ border-color:#1a6fc4; box-shadow:0 0 0 3px rgba(26,111,196,.08); }
+.input-wrap .ic{
+    width:40px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.input-wrap .ic svg{ width:15px; height:15px; stroke:#9ca3af; }
+.input-wrap input{
+    flex:1; padding:11px 10px 11px 0;
+    border:none; outline:none;
+    font-size:0.83rem; color:#111827;
+    font-family:'Poppins',sans-serif; background:transparent;
+}
+.input-wrap input::placeholder{ color:#9ca3af; }
+.toggle-pw{
+    width:40px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; background:none; border:none;
+}
+.toggle-pw svg{ width:15px; height:15px; stroke:#9ca3af; }
+
+/* FILE UPLOAD */
+.file-upload{
+    border:1.5px dashed #bcd0f0; border-radius:10px;
+    padding:11px 14px; cursor:pointer;
+    display:flex; align-items:center; gap:10px;
+    background:#f0f6ff; transition:border-color .15s;
+}
+.file-upload:hover{ border-color:#1a6fc4; }
+.file-upload svg{ width:17px; height:17px; stroke:#1a6fc4; flex-shrink:0; }
+.file-upload-text{ font-size:0.8rem; color:#6b7280; }
+.file-upload-text small{ display:block; font-size:0.7rem; color:#9ca3af; margin-top:2px; }
+.file-upload input{ display:none; }
+
+/* SUBMIT */
+.btn-submit{
+    width:100%; padding:13px;
+    background:#1a6fc4; border:none; border-radius:10px;
+    color:#fff; font-size:0.9rem; font-weight:700;
+    font-family:'Poppins',sans-serif; cursor:pointer;
+    margin-top:6px; transition:background .15s;
+}
+.btn-submit:hover{ background:#1248a0; }
+
+.form-footer{ text-align:center; margin-top:14px; font-size:0.78rem; color:#6b7280; }
+.form-footer a{ color:#1a6fc4; font-weight:600; text-decoration:none; }
+.form-footer a:hover{ text-decoration:underline; }
+
+@media(max-width:860px){
+    body{ grid-template-columns:1fr; overflow:auto; }
+    .left{ min-height:200px; padding:24px; }
+    .left-body p,.left-ilus{ display:none; }
+    .right{ padding:28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LEFT -->
+<div class="left">
+    <a class="logo-container" href="home.html">
+        <img src="logo.png" alt="Hope Hands"/>
+        <span>Hope Hands</span>
+    </a>
+    <div class="left-body">
+        <h2>Together we build<br>a <span class="accent">better world</span></h2>
+        <p>Join as a foundation and connect with donors who want to generate a real impact on your cause.</p>
+        <svg class="left-ilus" viewBox="0 0 220 210" fill="none">
+            <!-- clouds -->
+            <ellipse cx="58" cy="32" rx="22" ry="12" fill="rgba(255,255,255,.28)"/>
+            <ellipse cx="46" cy="30" rx="14" ry="10" fill="rgba(255,255,255,.22)"/>
+            <ellipse cx="168" cy="26" rx="18" ry="10" fill="rgba(255,255,255,.24)"/>
+            <ellipse cx="158" cy="24" rx="12" ry="8" fill="rgba(255,255,255,.2)"/>
+            <!-- leaves left -->
+            <ellipse cx="24" cy="162" rx="13" ry="26" fill="rgba(255,255,255,.22)" transform="rotate(-30 24 162)"/>
+            <ellipse cx="16" cy="154" rx="9" ry="18" fill="rgba(255,255,255,.16)" transform="rotate(-50 16 154)"/>
+            <!-- leaves right -->
+            <ellipse cx="196" cy="162" rx="13" ry="26" fill="rgba(255,255,255,.22)" transform="rotate(30 196 162)"/>
+            <ellipse cx="204" cy="154" rx="9" ry="18" fill="rgba(255,255,255,.16)" transform="rotate(50 204 154)"/>
+            <!-- building body -->
+            <rect x="56" y="90" width="108" height="96" rx="4" fill="rgba(255,255,255,.92)"/>
+            <!-- wings -->
+            <rect x="28" y="112" width="32" height="74" rx="3" fill="rgba(255,255,255,.78)"/>
+            <rect x="160" y="112" width="32" height="74" rx="3" fill="rgba(255,255,255,.78)"/>
+            <!-- windows -->
+            <rect x="66" y="100" width="20" height="17" rx="2" fill="#bfdbfe"/>
+            <rect x="100" y="100" width="20" height="17" rx="2" fill="#bfdbfe"/>
+            <rect x="134" y="100" width="20" height="17" rx="2" fill="#bfdbfe"/>
+            <!-- door -->
+            <rect x="96" y="132" width="28" height="54" rx="3" fill="#bfdbfe"/>
+            <!-- roof -->
+            <polygon points="110,46 42,90 178,90" fill="rgba(255,255,255,.96)"/>
+            <!-- heart on roof -->
+            <path d="M110 64 C110 64 103 59 103 64.5 C103 69.5 110 75 110 75 C110 75 117 69.5 117 64.5 C117 59 110 64 110 64Z" fill="#1a6fc4"/>
+            <!-- wing windows -->
+            <rect x="34" y="122" width="18" height="14" rx="2" fill="#bfdbfe"/>
+            <rect x="168" y="122" width="18" height="14" rx="2" fill="#bfdbfe"/>
+        </svg>
+    </div>
+    <!-- waves -->
+    <svg class="left-waves" viewBox="0 0 600 100" preserveAspectRatio="none">
+        <path d="M0,55 C100,20 200,80 300,50 C400,20 500,72 600,45 L600,100 L0,100 Z" fill="rgba(120,195,250,0.38)"/>
+        <path d="M0,72 C120,45 240,88 360,68 C460,52 540,80 600,62 L600,100 L0,100 Z" fill="rgba(210,238,255,0.3)"/>
+    </svg>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+    <div class="form-box">
+        <a class="back-link" href="login.html#signup">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Back
+        </a>
+        <div class="form-title">
+            Create account
+            <span>Foundation</span>
+        </div>
+        <p class="form-sub">Complete your foundation's information to start receiving support and donations.</p>
+
+        <div class="field">
+            <label>Name</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <input type="text" id="signupRepName" placeholder="Enter your name"/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Institutional Email</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                <input type="email" id="signupEmail" placeholder="Enter institutional email"/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Phone</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div>
+                <input type="tel" id="signupPhone" placeholder="Enter phone number"/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Foundation Name</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <input type="text" id="signupFoundationName" placeholder="Enter foundation name"/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Address</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <input type="text" id="signupAddress" placeholder="Enter address"/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Receipt of the Foundation</label>
+            <label class="file-upload">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <div class="file-upload-text">
+                    Upload foundation receipt
+                    <small>PDF, JPG or PNG. Max. 10MB</small>
+                </div>
+                <input type="file" accept=".pdf,.jpg,.png"/>
+            </label>
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+                <input type="password" id="pw1" placeholder="Create a password"/>
+                <button class="toggle-pw" type="button" onclick="togglePw('pw1')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <button class="btn-submit" id="signupBtn">Sign Up</button>
+        <p class="form-footer">Already have an account? <a href="login-fundacion.html">Log in</a></p>
+    </div>
+</div>
+
+<script>
+function togglePw(id){ var i=document.getElementById(id); i.type=i.type==='password'?'text':'password'; }
+</script>
+
+<!-- Librería oficial de Supabase (debe ir ANTES de supabase-client.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/profiles.js"></script>
+
+<script>
+// Nota: el archivo del comprobante (Receipt of the Foundation) todavía no
+// se sube a ningún lado; eso requiere Supabase Storage y se deja para una
+// siguiente fase de integración (ver el resumen del proyecto).
+document.getElementById('signupBtn').addEventListener('click', async function(){
+  var repName = document.getElementById('signupRepName').value.trim();
+  var email = document.getElementById('signupEmail').value.trim();
+  var phone = document.getElementById('signupPhone').value.trim();
+  var foundationName = document.getElementById('signupFoundationName').value.trim();
+  var address = document.getElementById('signupAddress').value.trim();
+  var password = document.getElementById('pw1').value;
+
+  if(!repName || !email || !foundationName || !password){
+    showToast('Please complete name, email, foundation name and password.');
+    return;
+  }
+
+  // Copia local (la usan otras páginas de fundación mientras se migran)
+  try{
+    var p = JSON.parse(localStorage.getItem('hopeHandsFoundationProfile'))||{};
+    p.foundationName = foundationName;
+    localStorage.setItem('hopeHandsFoundationProfile', JSON.stringify(p));
+  }catch(e){}
+
+  var result = await signUpFundacion(repName, foundationName, email, phone, address, password);
+  if(result.ok){
+    window.location.href = 'fundacion/dashboard.html';
+  }
+});
+</script>
+</body>
+</html>
+

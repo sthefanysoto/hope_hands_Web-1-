@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Add Resource - Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="foundation-style.css"/>
+<style>
+.action-icon svg{width:22px;height:22px;stroke:#2563eb;fill:none;stroke-width:2;stroke-linecap:round;}
+.stat-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.empty-icon svg{width:32px;height:32px;stroke:#1a6fc4;fill:none;stroke-width:1.8;stroke-linecap:round;}
+
+</style>
+<!-- Supabase: cliente + autenticación + capa de datos de recursos -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/resources.js"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-top">
+    <a href="../home.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:8px;color:#fff;">
+      <img src="../logo.png" class="sb-logo" alt="Hope Hands"/>
+      <span class="sb-name">Hope Hands</span>
+    </a>
+    <div class="sb-role">Foundation Dashboard</div>
+  </div>
+  <nav class="sb-nav"><div class="sb-group">Overview</div>
+<a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+<div class="sb-group">Campaigns</div>
+<a href="campaigns.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>My Campaigns</a>
+<div class="sb-group">Resources</div>
+<a href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Needed Products</a>
+<a href="add-resource.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add Resources</a>
+<div class="sb-group">Community</div>
+<a href="donors.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Donors</a>
+<a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Reports</a>
+<div class="sb-group">Account</div>
+<a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Foundation Account</a>
+<a href="agent-of-change.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15a4 4 0 100-8 4 4 0 000 8z"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>Verified Partner</a>
+<a href="../login.html" onclick="return confirm('Sign out of Hope Hands?')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</a>
+</nav>
+  <div class="sb-bottom">
+    <div class="sb-help">
+      <p>Complete your profile to attract more donors to your foundation.</p>
+      <a href="profile.html">Complete profile</a>
+    </div>
+  </div>
+</aside>
+<div class="main">
+  <header class="topbar">
+    <div class="tb-brand">
+      <img src="../logo.png" alt="Hope Hands"/>
+      Hope Hands
+    </div>
+    <div class="tb-actions">
+      <button class="icon-btn">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </button>
+      <a href="profile.html" class="tb-user">
+        <div class="user-avatar">F</div>
+        <span class="tb-user-name">My Foundation</span>
+      </a>
+    </div>
+  </header>
+  <main class="content">
+
+<div class="page-head">
+  <div><h1>Add Product / Resource</h1><p>List a product your foundation needs so donors know exactly what to send.</p></div>
+  <a href="products.html" class="btn-secondary"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back</a>
+</div>
+<div class="form-layout">
+  <div class="card form-card">
+    <h2 style="margin-bottom:4px;">Product Details</h2>
+    <p class="sub" style="margin-bottom:18px;">Be specific so donors know exactly what to bring.</p>
+    <div class="form-grid">
+      <div class="field full">
+        <label>Product Name <span style="color:#ef4444;">*</span></label>
+        <input id="res-name" placeholder="e.g. School backpacks"/>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="res-category"><option>Education</option><option>Food</option><option>Health</option><option>Clothing</option><option>Hygiene</option><option>Other</option></select>
+      </div>
+      <div class="field">
+        <label>Priority</label>
+        <select id="res-priority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select>
+      </div>
+      <div class="field">
+        <label>Quantity Needed <span style="color:#ef4444;">*</span></label>
+        <input id="res-qty" type="number" placeholder="e.g. 50" min="1"/>
+      </div>
+      <div class="field">
+        <label>Unit</label>
+        <select id="res-unit"><option>Units</option><option>Kg</option><option>Liters</option><option>Boxes</option><option>Bags</option><option>Pairs</option></select>
+      </div>
+      <div class="field full">
+        <label>Notes (optional)</label>
+        <textarea id="res-notes" placeholder="Any specific requirements, brand, size, condition..."></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <a href="products.html" class="btn-secondary">Cancel</a>
+      <button type="button" class="btn-primary" onclick="saveResource()">Save Product</button>
+    </div>
+  </div>
+  <div>
+    <div class="card preview-card" style="position:sticky;top:16px;">
+      <h3>Preview</h3>
+      <div class="preview-line"><div class="preview-label">Product</div><div class="preview-value">School backpacks</div></div>
+      <div class="preview-line"><div class="preview-label">Priority</div><div><span class="priority medium">Medium</span></div></div>
+      <div class="preview-line"><div class="preview-label">Quantity</div><div class="preview-value">50 units</div></div>
+      <div style="margin-top:14px;background:#f0f6ff;border-radius:10px;padding:12px;font-size:.72rem;color:#1e40af;line-height:1.6;">
+        This is how donors will see this product in your campaign listing.
+      </div>
+    </div>
+  </div>
+</div>
+
+  </main>
+</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+</script>
+<script>
+window.hhSyncFoundation=function(){
+  try{
+    var p=JSON.parse(localStorage.getItem('hopeHandsFoundationProfile'))||{};
+    var name=(p.foundationName||'').trim();
+    if(name){
+      document.querySelectorAll('.tb-user-name').forEach(function(el){el.textContent=name;});
+      var ini=name.split(/\s+/).filter(Boolean).slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();
+      document.querySelectorAll('.user-avatar').forEach(function(el){if(!el.querySelector('img'))el.textContent=ini;});
+    }
+    document.querySelectorAll('.tb-user').forEach(function(el){
+      var b=el.querySelector('.premium-chip');
+      if(p.premium){
+        if(!b){
+          b=document.createElement('span');
+          b.className='premium-chip';
+          b.style.cssText='display:inline-flex;align-items:center;gap:3px;background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 8px;font-size:.58rem;font-weight:800;margin-left:2px;';
+          b.innerHTML='<svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:#92400e;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.9 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z"/></svg>Verified';
+          el.appendChild(b);
+        }
+      } else if(b){ b.remove(); }
+    });
+  }catch(e){}
+};
+window.hhSyncFoundation();
+</script>
+<script>
+(function(){
+  function hhToast(msg){
+    if(typeof showToast === 'function'){ showToast(msg); return; }
+    var t = document.getElementById('hhBellToast');
+    if(!t){
+      t = document.createElement('div'); t.id='hhBellToast';
+      t.style.cssText='position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#071d5e;color:#fff;padding:12px 22px;border-radius:12px;font-family:Poppins,sans-serif;font-size:.85rem;font-weight:500;box-shadow:0 10px 30px rgba(7,29,94,.3);opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+    clearTimeout(t._tm);
+    t._tm = setTimeout(function(){ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2600);
+  }
+  document.querySelectorAll('.tb-actions .icon-btn').forEach(function(b){
+    b.addEventListener('click', function(){ hhToast('No new notifications'); });
+  });
+})();
+</script>
+<script>
+// readCampsAR() se deja igual (solo se usa para el aviso de "sin campañas
+// activas" más abajo, no es el foco de esta migración).
+function readCampsAR(){try{return JSON.parse(localStorage.getItem('hopeHandsFoundationCampaigns'))||[];}catch(e){return [];}}
+
+// Conectado a Supabase (tabla foundation_resources, ver js/resources.js).
+async function saveResource(){
+  var name=document.getElementById('res-name').value.trim();
+  var qty=parseInt(document.getElementById('res-qty').value)||0;
+  if(!name){ showToast('Please enter a product name'); return; }
+  if(qty<1){ showToast('Please enter the quantity needed'); return; }
+  var result = await createResource({
+    name: name,
+    category: document.getElementById('res-category').value,
+    priority: document.getElementById('res-priority').value,
+    qty: qty,
+    unit: document.getElementById('res-unit').value,
+    notes: document.getElementById('res-notes').value.trim()
+  });
+  if(!result.ok) return;
+  showToast('Product added!');
+  setTimeout(function(){ location.href='products.html'; }, 900);
+}
+// aviso si aun no hay campañas activas
+(function(){
+  if(readCampsAR().some(function(c){return c.status==='Active';})) return;
+  var head=document.querySelector('.page-head');
+  var warn=document.createElement('div');
+  warn.style.cssText='background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:.74rem;color:#92400e;';
+  warn.innerHTML='You have no active campaigns yet. Products are easier for donors to find inside a campaign — <a href="add-campaign.html" style="color:#92400e;font-weight:700;">create one first</a>.';
+  head.parentNode.insertBefore(warn, head.nextSibling);
+})();
+(async function(){ await requireAuth('fundacion', '../login-fundacion.html'); })();
+</script>
+</body>
+</html>

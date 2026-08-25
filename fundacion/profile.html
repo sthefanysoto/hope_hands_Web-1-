@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Foundation Account – Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="foundation-style.css"/>
+<style>
+.action-icon svg{width:22px;height:22px;stroke:#2563eb;fill:none;stroke-width:2;stroke-linecap:round;}
+.stat-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.empty-icon svg{width:32px;height:32px;stroke:#1a6fc4;fill:none;stroke-width:1.8;stroke-linecap:round;}
+
+.tab-btns{display:flex;gap:0;border-bottom:1px solid #e2e8f0;margin-bottom:18px;}
+.tab-btn{padding:9px 18px;border:none;background:none;font-family:inherit;font-size:.78rem;font-weight:600;color:#64748b;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:.15s;}
+.tab-btn.active{color:#1a6fc4;border-bottom-color:#1a6fc4;}
+.tab-panel{display:none;} .tab-panel.active{display:block;}
+.focus-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.fc{border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 8px;text-align:center;cursor:pointer;transition:.15s;}
+.fc:hover,.fc.sel{border-color:#1a6fc4;background:#dbeafe;}
+.fc-icon{width:36px;height:36px;border-radius:9px;background:#dbeafe;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+.fc-icon svg{width:18px;height:18px;stroke:#1a6fc4;fill:none;stroke-width:2;stroke-linecap:round;}
+.fc-name{font-size:.68rem;font-weight:700;color:#0f172a;}
+.fc.sel .fc-name{color:#1a3d7a;}
+.progress-pct{font-size:1.4rem;font-weight:800;color:#1a6fc4;}
+
+</style>
+<!-- Supabase: cliente + autenticación + capa de datos de perfiles -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/profiles.js"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-top">
+    <a href="../home.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:8px;color:#fff;">
+      <img src="../logo.png" class="sb-logo" alt="Hope Hands"/>
+      <span class="sb-name">Hope Hands</span>
+    </a>
+    <div class="sb-role">Foundation Dashboard</div>
+  </div>
+  <nav class="sb-nav"><div class="sb-group">Overview</div>
+<a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+<div class="sb-group">Campaigns</div>
+<a href="campaigns.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>My Campaigns</a>
+<div class="sb-group">Resources</div>
+<a href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Needed Products</a>
+<a href="add-resource.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add Resources</a>
+<div class="sb-group">Community</div>
+<a href="donors.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Donors</a>
+<a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Reports</a>
+<div class="sb-group">Account</div>
+<a href="profile.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Foundation Account</a>
+<a href="agent-of-change.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15a4 4 0 100-8 4 4 0 000 8z"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>Verified Partner</a>
+<a href="../login.html" onclick="return confirm('Sign out of Hope Hands?')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</a>
+</nav>
+  <div class="sb-bottom">
+    <div class="sb-help">
+      <p>Complete your profile to attract more donors to your foundation.</p>
+      <a href="profile.html">Complete profile</a>
+    </div>
+  </div>
+</aside>
+<div class="main">
+  <header class="topbar">
+    <div class="tb-brand">
+      <img src="../logo.png" alt="Hope Hands"/>
+      Hope Hands
+    </div>
+    <div class="tb-actions">
+      <button class="icon-btn">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </button>
+      <a href="profile.html" class="tb-user">
+        <div class="user-avatar">F</div>
+        <span class="tb-user-name">My Foundation</span>
+      </a>
+    </div>
+  </header>
+  <main class="content">
+
+<div class="page-head">
+  <div><h1>Foundation Account</h1><p>Complete your profile so donors know what your foundation is about.</p></div>
+  <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:10px 18px;text-align:center;min-width:120px;">
+    <div class="progress-pct">25%</div>
+    <div style="font-size:.64rem;color:#64748b;margin-bottom:5px;">Profile complete</div>
+    <div style="height:4px;background:#e5e7eb;border-radius:3px;overflow:hidden;"><div style="width:25%;height:100%;background:linear-gradient(90deg,#1a6fc4,#2070c8);border-radius:3px;"></div></div>
+  </div>
+</div>
+
+<div class="tab-btns">
+  <button class="tab-btn active" onclick="switchTab(this,'tab-basic')">Basic Info</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-focus')">Focus Areas</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-contact')">Contact & Social</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-team')">Team & Locations</button>
+</div>
+
+<div id="tab-basic" class="tab-panel active">
+  <div class="card form-card">
+    <h2 style="margin-bottom:4px;">About Your Foundation</h2>
+    <p class="sub" style="margin-bottom:18px;">Tell donors who you are and what your mission is.</p>
+    <div class="form-grid">
+      <div class="field full"><label>Foundation Name <span style="color:#ef4444;">*</span></label><input id="foundationNameInput" placeholder="e.g. Fundación Nueva Esperanza"/></div>
+      <div class="field full"><label>Tagline</label><input id="taglineInput" placeholder="e.g. Building futures, one family at a time"/></div>
+      <div class="field full"><label>Mission / About Us <span style="color:#ef4444;">*</span></label><textarea id="missionInput" placeholder="Describe your foundation's mission, history and the community you serve..."></textarea></div>
+      <div class="field"><label>Founded Year</label><input id="foundedYearInput" type="number" placeholder="e.g. 2018"/></div>
+      <div class="field"><label>Foundation Type</label><select id="categoryInput"><option value="">Select...</option><option>Non-profit organization</option><option>Religious organization</option><option>Community association</option><option>NGO</option><option>Other</option></select></div>
+      <div class="field"><label>Reception Hours</label><input id="scheduleInput" placeholder="e.g. Mon–Fri 8am–5pm"/></div>
+      <div class="field"><label>Address (used for the map)</label><input id="cityInput" placeholder="e.g. Calle 50, Ciudad de Panamá"/></div>
+    </div>
+    <div class="form-actions"><a href="dashboard.html" class="btn-secondary">Cancel</a><button type="button" class="btn-primary" onclick="saveBasicInfo()">Save Changes</button></div>
+  </div>
+</div>
+
+<div id="tab-focus" class="tab-panel">
+  <div class="card form-card">
+    <h2 style="margin-bottom:4px;">Focus Areas</h2>
+    <p class="sub" style="margin-bottom:18px;">Select all areas that apply. Donors use this to find foundations that match their interests.</p>
+    <div class="focus-grid"><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="fc-name">Food & Nutrition</div></div><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="fc-name">Education</div></div><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="fc-name">Health & Wellness</div></div><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="fc-name">Housing</div></div><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="fc-name">Children</div></div><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="fc-name">Elderly Care</div></div><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="fc-name">Migrants</div></div><div class="fc" onclick="this.classList.toggle('sel')"><div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22V12m0 0l-3.5-3.5M12 12l3.5-3.5"/></svg></div><div class="fc-name">Environment</div></div></div>
+    <div class="form-actions" style="margin-top:18px;"><button type="button" class="btn-primary" onclick="showToast('Focus areas saved!')">Save Focus Areas</button></div>
+  </div>
+</div>
+
+<div id="tab-contact" class="tab-panel">
+  <div class="card form-card">
+    <h2 style="margin-bottom:4px;">Contact & Social Media</h2>
+    <p class="sub" style="margin-bottom:18px;">How can donors reach you or learn more?</p>
+    <div class="form-grid">
+      <div class="field"><label>Phone</label><input id="phoneInput" type="tel" placeholder="+507 0000-0000"/></div>
+      <div class="field"><label>Email</label><input id="emailInput" type="email" placeholder="contact@foundation.org"/></div>
+      <div class="field full"><label>Website</label><input id="websiteInput" type="url" placeholder="www.yourfoundation.org"/></div>
+      <div class="field full"><label>Registration ID / RUC</label><input id="legalIdInput" placeholder="e.g. 8-NT-12345"/></div>
+      <div class="field full"><label>Facebook</label><input id="facebookInput" placeholder="facebook.com/yourfoundation"/></div>
+      <div class="field full"><label>Instagram</label><input id="instagramInput" placeholder="instagram.com/yourfoundation"/></div>
+      <div class="field full"><label>WhatsApp</label><input id="whatsappInput" type="tel" placeholder="+507 0000-0000"/></div>
+    </div>
+    <div class="form-actions"><button type="button" class="btn-primary" onclick="saveContactInfo()">Save Contact Info</button></div>
+  </div>
+</div>
+
+  <div id="tab-team" class="tab-panel">
+
+  <div class="card form-card" style="margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px;">
+      <h2 style="margin-bottom:0;">Team Members</h2>
+      <span id="teamPlanTag" style="font-size:.6rem;font-weight:800;padding:3px 10px;border-radius:20px;background:#fef3c7;color:#92400e;">Verified Partner</span>
+    </div>
+    <p class="sub" style="margin-bottom:16px;">People from your foundation who can be listed as points of contact.</p>
+    <div id="teamList" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;"></div>
+    <div id="teamLocked" style="display:none;background:#f4f7ff;border-radius:12px;padding:16px;text-align:center;">
+      <p style="font-size:.74rem;color:#374151;margin-bottom:10px;">Adding team members is a Verified Partner benefit.</p>
+      <a href="agent-of-change.html" class="btn-primary" style="display:inline-flex;">Upgrade to Verified Partner</a>
+    </div>
+    <div id="teamForm" class="form-grid" style="margin-top:6px;">
+      <div class="field"><label>Name</label><input id="team-name" placeholder="e.g. Ana Martínez"/></div>
+      <div class="field"><label>Role</label><input id="team-role" placeholder="e.g. Program Coordinator"/></div>
+      <div class="field full"><label>Email</label><input id="team-email" type="email" placeholder="name@foundation.org"/></div>
+    </div>
+    <div class="form-actions" id="teamActions"><button type="button" class="btn-primary" onclick="addTeamMember()">Add Team Member</button></div>
+  </div>
+
+  <div class="card form-card" style="margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px;">
+      <h2 style="margin-bottom:0;">Volunteers</h2>
+      <span id="volPlanTag" style="font-size:.6rem;font-weight:800;padding:3px 10px;border-radius:20px;background:#e0eeff;color:#1a3d7a;">Basic</span>
+    </div>
+    <p class="sub" style="margin-bottom:16px;" id="volSub">Keep a simple list of volunteers helping your foundation. Free plan: up to 3 volunteers, name and contact only.</p>
+    <div id="volList" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;"></div>
+    <div class="form-grid">
+      <div class="field"><label>Name</label><input id="vol-name" placeholder="e.g. Carlos Ruiz"/></div>
+      <div class="field"><label>Contact</label><input id="vol-contact" placeholder="Phone or email"/></div>
+      <div class="field" id="volRoleField" style="display:none;"><label>Role <span style="font-size:.58rem;font-weight:700;color:#92400e;">Verified Partner</span></label><input id="vol-role" placeholder="e.g. Weekend logistics"/></div>
+      <div class="field" id="volStatusField" style="display:none;"><label>Status <span style="font-size:.58rem;font-weight:700;color:#92400e;">Verified Partner</span></label><select id="vol-status"><option>Active</option><option>Inactive</option></select></div>
+    </div>
+    <div class="form-actions"><button type="button" class="btn-primary" onclick="addVolunteer()">Add Volunteer</button></div>
+  </div>
+
+  <div class="card form-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px;">
+      <h2 style="margin-bottom:0;">Locations</h2>
+      <span id="locPlanTag" style="font-size:.6rem;font-weight:800;padding:3px 10px;border-radius:20px;background:#e0eeff;color:#1a3d7a;">Basic</span>
+    </div>
+    <p class="sub" style="margin-bottom:16px;" id="locSub">Where donors can find or reach your foundation. Free plan: 1 location.</p>
+    <div id="locList" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;"></div>
+    <div id="locLocked" style="display:none;background:#f4f7ff;border-radius:12px;padding:14px;text-align:center;margin-bottom:10px;">
+      <p style="font-size:.72rem;color:#374151;">You've reached the Free plan limit of 1 location. <a href="agent-of-change.html" style="color:#1a4a94;font-weight:700;">Upgrade to add more</a>.</p>
+    </div>
+    <div class="form-grid" id="locForm">
+      <div class="field"><label>Location name</label><input id="loc-name" placeholder="e.g. Main office"/></div>
+      <div class="field full"><label>Address</label><input id="loc-address" placeholder="e.g. Av. Balboa, Ciudad de Panamá"/></div>
+    </div>
+    <div class="form-actions" id="locActions"><button type="button" class="btn-primary" onclick="addLocation()">Add Location</button></div>
+  </div>
+
+</div>
+
+  
+<div class="page-head" id="settings" style="margin-top:26px;"><h1 style="font-size:1.1rem;">Settings</h1><p>Manage your foundation account, security and notification preferences.</p></div>
+<div class="settings-layout">
+  <div class="card card-pad">
+    <div class="settings-menu">
+      <button class="active" onclick="switchPanel(this,'p-account')">Account</button>
+      <button onclick="switchPanel(this,'p-security')">Security</button>
+      <button onclick="switchPanel(this,'p-notif')">Notifications</button>
+      <button onclick="switchPanel(this,'p-prefs')">Preferences</button>
+      <button onclick="switchPanel(this,'p-danger')" style="color:#dc2626;">Danger Zone</button>
+    </div>
+  </div>
+  <div>
+    <div id="p-account" class="panel card active">
+      <h2>Account Information</h2><p class="sub">Basic details for your foundation account.</p>
+      <div class="form-grid">
+        <div class="field full"><label>Foundation Name</label><input placeholder="Your foundation name"/></div>
+        <div class="field"><label>Email</label><input type="email" placeholder="contact@foundation.org"/></div>
+        <div class="field"><label>Phone</label><input type="tel" placeholder="+507 0000-0000"/></div>
+        <div class="field full"><label>Registration ID / RUC</label><input placeholder="e.g. 8-NT-12345"/></div>
+      </div>
+      <div class="form-actions"><button type="button" class="btn-primary" onclick="showToast('Saved!')">Save Changes</button></div>
+    </div>
+    <div id="p-security" class="panel card">
+      <h2>Security</h2><p class="sub">Update your password and enable two-factor authentication.</p>
+      <div class="field"><label>Current Password</label><input type="password" placeholder="••••••••"/></div>
+      <div class="field"><label>New Password</label><input type="password" placeholder="••••••••"/></div>
+      <div class="field"><label>Confirm New Password</label><input type="password" placeholder="••••••••"/></div>
+      <div class="settings-row"><div><h3>Two-Factor Authentication</h3><p>Receive a verification code each time you log in</p></div><label class="switch"><input type="checkbox"/><span class="slider"></span></label></div>
+      <div class="form-actions"><button type="button" class="btn-primary" onclick="showToast('Security updated!')">Update Security</button></div>
+    </div>
+    <div id="p-notif" class="panel card">
+      <h2>Notifications</h2><p class="sub">Choose what updates you want to receive by email.</p>
+      <div class="settings-row"><div><h3>New donation received</h3><p>When a donor sends products to your foundation</p></div><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
+      <div class="settings-row"><div><h3>Campaign milestones</h3><p>When a campaign reaches 50%, 75% or 100% of its goal</p></div><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
+      <div class="settings-row"><div><h3>Donor messages</h3><p>When a donor leaves a message with their donation</p></div><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
+      <div class="settings-row"><div><h3>Weekly summary</h3><p>A weekly activity report for your foundation</p></div><label class="switch"><input type="checkbox"/><span class="slider"></span></label></div>
+      <div class="settings-row"><div><h3>Platform updates</h3><p>News and tips from Hope Hands</p></div><label class="switch"><input type="checkbox"/><span class="slider"></span></label></div>
+      <div class="form-actions"><button type="button" class="btn-primary" onclick="showToast('Saved!')">Save Preferences</button></div>
+    </div>
+    <div id="p-prefs" class="panel card">
+      <h2>Preferences</h2><p class="sub">Customize your Hope Hands experience.</p>
+      <div class="settings-row"><div><h3>Language</h3><p>Choose your preferred language</p></div><select style="border:1.5px solid #dbe3f2;border-radius:8px;padding:7px 12px;font-family:inherit;font-size:.76rem;"><option>English</option><option>Español</option></select></div>
+      <div class="settings-row"><div><h3>Show foundation publicly</h3><p>Allow your foundation to appear in donor searches</p></div><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
+      <div class="settings-row"><div><h3>Auto-archive completed campaigns</h3><p>Move campaigns to archive when they reach 100%</p></div><label class="switch"><input type="checkbox"/><span class="slider"></span></label></div>
+      <div class="form-actions"><button type="button" class="btn-primary" onclick="showToast('Saved!')">Save Preferences</button></div>
+    </div>
+    <div id="p-danger" class="panel card">
+      <h2 style="color:#dc2626;">Danger Zone</h2><p class="sub">These actions are permanent and cannot be undone.</p>
+      <div class="danger-zone">
+        <div class="settings-row"><div><h3>Deactivate Account</h3><p>Temporarily hide your foundation from donors. You can reactivate at any time.</p></div><button class="btn-danger" onclick="if(confirm('Are you sure you want to deactivate your foundation account?')){showToast('This is a demo — account actions are not processed');}">Deactivate</button></div>
+        <div class="settings-row" style="border:none;"><div><h3>Delete Account</h3><p>Permanently delete your foundation account and all associated data.</p></div><button class="btn-danger" onclick="if(confirm('This will permanently delete your foundation account. Continue?')){showToast('This is a demo — account actions are not processed');}">Delete Forever</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+</script><script>
+function switchTab(btn,id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');document.getElementById(id).classList.add('active');
+}
+(function(){
+  var hash = (location.hash||'').replace('#','');
+  if(!hash) return;
+  var panel = document.getElementById(hash);
+  if(!panel || !panel.classList.contains('tab-panel')) return;
+  var btn = Array.prototype.find.call(document.querySelectorAll('.tab-btn'), function(b){
+    return b.getAttribute('onclick').indexOf("'"+hash+"'") > -1;
+  });
+  if(btn) switchTab(btn, hash);
+})();
+// ============================================================================
+// Conectado a Supabase (tabla "foundations", ver sql/schema.sql y
+// js/profiles.js). saveBasicInfo() y saveContactInfo() guardan solo los
+// campos de su pestaña, pero como usan upsert, ambas pueden llamarse en
+// cualquier orden sin borrar lo que ya se guardó en la otra.
+// ============================================================================
+let currentFoundation = {}; // caché en memoria de lo último cargado/guardado
+
+async function saveBasicInfo(){
+  currentFoundation.foundationName = document.getElementById('foundationNameInput').value.trim();
+  currentFoundation.tagline        = document.getElementById('taglineInput').value.trim();
+  currentFoundation.mission        = document.getElementById('missionInput').value.trim();
+  currentFoundation.foundedYear    = document.getElementById('foundedYearInput').value.trim();
+  currentFoundation.category       = document.getElementById('categoryInput').value;
+  currentFoundation.schedule       = document.getElementById('scheduleInput').value.trim();
+  currentFoundation.address        = document.getElementById('cityInput').value.trim(); // dirección completa, usada también para ubicar el mapa
+  const result = await saveFoundationProfile(currentFoundation);
+  if(!result.ok) return;
+  showToast('Profile saved!');
+  if(window.hhSyncFoundation)window.hhSyncFoundation();
+  // Geocodifica la dirección para que la fundación aparezca en el mapa de
+  // donador/foundations.html. Es un paso extra silencioso: si falla, el
+  // perfil ya quedó guardado igual, solo no se actualiza la ubicación.
+  if(currentFoundation.address){
+    var geo = await geocodeAndSaveFoundationLocation(currentFoundation.address);
+    if(geo.ok) showToast('Profile saved! Location updated on the map.');
+    else if(geo.notFound) showToast('Profile saved, but we could not find that address on the map. Try being more specific (street + city).');
+  }
+}
+
+async function saveContactInfo(){
+  currentFoundation.phone     = document.getElementById('phoneInput').value.trim();
+  currentFoundation.email     = document.getElementById('emailInput').value.trim();
+  currentFoundation.website   = document.getElementById('websiteInput').value.trim();
+  currentFoundation.legalId   = document.getElementById('legalIdInput').value.trim();
+  currentFoundation.facebook  = document.getElementById('facebookInput').value.trim();
+  currentFoundation.instagram = document.getElementById('instagramInput').value.trim();
+  const result = await saveFoundationProfile(currentFoundation);
+  if(result.ok) showToast('Contact info saved!');
+}
+
+// Carga inicial: exige sesión de fundación y llena ambas pestañas con lo
+// que ya esté guardado en Supabase.
+(async function initFoundationProfilePage(){
+  const user = await requireAuth('fundacion', '../login-fundacion.html');
+  if(!user) return;
+  currentFoundation = await getFoundationProfile();
+  currentFoundation.userId = user.id;
+  const f = currentFoundation;
+  if(document.getElementById('foundationNameInput')) document.getElementById('foundationNameInput').value = f.foundationName||'';
+  if(document.getElementById('taglineInput'))         document.getElementById('taglineInput').value = f.tagline||'';
+  if(document.getElementById('missionInput'))         document.getElementById('missionInput').value = f.mission||'';
+  if(document.getElementById('foundedYearInput'))     document.getElementById('foundedYearInput').value = f.foundedYear||'';
+  if(document.getElementById('categoryInput'))        document.getElementById('categoryInput').value = f.category||'';
+  if(document.getElementById('scheduleInput'))        document.getElementById('scheduleInput').value = f.schedule||'';
+  if(document.getElementById('cityInput'))            document.getElementById('cityInput').value = f.address||'';
+  if(document.getElementById('phoneInput'))           document.getElementById('phoneInput').value = f.phone||'';
+  if(document.getElementById('emailInput'))           document.getElementById('emailInput').value = f.email||'';
+  if(document.getElementById('websiteInput'))         document.getElementById('websiteInput').value = f.website||'';
+  if(document.getElementById('legalIdInput'))         document.getElementById('legalIdInput').value = f.legalId||'';
+  if(document.getElementById('facebookInput'))        document.getElementById('facebookInput').value = f.facebook||'';
+  if(document.getElementById('instagramInput'))       document.getElementById('instagramInput').value = f.instagram||'';
+  if(window.hhSyncFoundation) window.hhSyncFoundation();
+  if(typeof initTeamVolunteersLocations==='function') await initTeamVolunteersLocations();
+})();
+</script>
+<script>
+(function(){
+  function hhToast(msg){
+    if(typeof showToast === 'function'){ showToast(msg); return; }
+    var t = document.getElementById('hhBellToast');
+    if(!t){
+      t = document.createElement('div'); t.id='hhBellToast';
+      t.style.cssText='position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#071d5e;color:#fff;padding:12px 22px;border-radius:12px;font-family:Poppins,sans-serif;font-size:.85rem;font-weight:500;box-shadow:0 10px 30px rgba(7,29,94,.3);opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+    clearTimeout(t._tm);
+    t._tm = setTimeout(function(){ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2600);
+  }
+  document.querySelectorAll('.tb-actions .icon-btn').forEach(function(b){
+    b.addEventListener('click', function(){ hhToast('No new notifications'); });
+  });
+})();
+</script>
+<script>
+function switchPanel(btn,id){
+  document.querySelectorAll('.settings-menu button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');document.getElementById(id).classList.add('active');
+}
+window.hhSyncFoundation=function(){
+  try{
+    var p=currentFoundation||{};
+    var name=(p.foundationName||'').trim();
+    if(name){
+      document.querySelectorAll('.tb-user-name').forEach(function(el){el.textContent=name;});
+      var ini=name.split(/\s+/).filter(Boolean).slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();
+      document.querySelectorAll('.user-avatar').forEach(function(el){if(!el.querySelector('img'))el.textContent=ini;});
+    }
+    document.querySelectorAll('.tb-user').forEach(function(el){
+      var b=el.querySelector('.premium-chip');
+      if(p.premium){
+        if(!b){
+          b=document.createElement('span');
+          b.className='premium-chip';
+          b.style.cssText='display:inline-flex;align-items:center;gap:3px;background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 8px;font-size:.58rem;font-weight:800;margin-left:2px;';
+          b.innerHTML='<svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:#92400e;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.9 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z"/></svg>Verified';
+          el.appendChild(b);
+        }
+      } else if(b){ b.remove(); }
+    });
+  }catch(e){}
+};
+</script>
+<script>
+// ============================================================================
+// Team / Volunteers / Locations — conectado a Supabase (foundation_team_members,
+// foundation_volunteers, foundation_locations). isPremiumFP() ahora lee del
+// perfil de fundación ya cargado (currentFoundation), no de localStorage.
+// ============================================================================
+function esc2(x){var d=document.createElement('div');d.textContent=x;return d.innerHTML;}
+function isPremiumFP(){ return !!(currentFoundation||{}).premium; }
+
+/* ---- TEAM MEMBERS (Verified Partner only) ---- */
+async function renderTeam(){
+  var premium = isPremiumFP();
+  document.getElementById('teamPlanTag').textContent = premium ? 'Verified Partner — Active' : 'Verified Partner';
+  document.getElementById('teamForm').style.display = premium ? '' : 'none';
+  document.getElementById('teamActions').style.display = premium ? '' : 'none';
+  document.getElementById('teamLocked').style.display = premium ? 'none' : '';
+  var team = await getFoundationTeam(currentFoundation.userId);
+  document.getElementById('teamList').innerHTML = team.length ? team.map(function(m){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #e8edf8;border-radius:11px;padding:10px 13px;background:#f8faff;">'
+      +'<div><div style="font-size:.76rem;font-weight:700;color:#0f172a;">'+esc2(m.name)+'</div><div style="font-size:.66rem;color:#6b7280;">'+esc2(m.role||'Team member')+(m.email?(' · '+esc2(m.email)):'')+'</div></div>'
+      +'<button data-delteam="'+m.id+'" style="font-size:.66rem;font-weight:700;color:#dc2626;background:#fff;border:1.5px solid #fecaca;border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;">Remove</button></div>';
+  }).join('') : '<p style="font-size:.72rem;color:#6b7280;">No team members added yet.</p>';
+}
+async function addTeamMember(){
+  if(!isPremiumFP()){ showToast('Upgrade to Verified Partner to add team members'); return; }
+  var name = document.getElementById('team-name').value.trim();
+  if(!name){ showToast('Please enter a name'); return; }
+  await addFoundationTeamMember(currentFoundation.userId, name, document.getElementById('team-role').value.trim(), document.getElementById('team-email').value.trim());
+  document.getElementById('team-name').value=''; document.getElementById('team-role').value=''; document.getElementById('team-email').value='';
+  showToast('Team member added!');
+  renderTeam();
+}
+document.getElementById('teamList').addEventListener('click', async function(e){
+  var id = e.target.getAttribute('data-delteam');
+  if(!id) return;
+  await deleteFoundationTeamMember(id);
+  renderTeam();
+});
+
+/* ---- VOLUNTEERS (basic for all, advanced for Verified Partner) ---- */
+var FREE_VOLUNTEER_LIMIT = 3;
+var volsCache = [];
+async function renderVols(){
+  var premium = isPremiumFP();
+  document.getElementById('volPlanTag').textContent = premium ? 'Advanced' : 'Basic';
+  document.getElementById('volPlanTag').style.background = premium ? '#fef3c7' : '#e0eeff';
+  document.getElementById('volPlanTag').style.color = premium ? '#92400e' : '#1a3d7a';
+  document.getElementById('volRoleField').style.display = premium ? '' : 'none';
+  document.getElementById('volStatusField').style.display = premium ? '' : 'none';
+  document.getElementById('volSub').textContent = premium
+    ? 'Advanced volunteer management: unlimited volunteers with roles and status tracking.'
+    : 'Basic volunteer management: up to '+FREE_VOLUNTEER_LIMIT+' volunteers, name and contact only. Upgrade for roles, status and unlimited volunteers.';
+  volsCache = await getFoundationVolunteers(currentFoundation.userId);
+  var vols = volsCache;
+  document.getElementById('volList').innerHTML = vols.length ? vols.map(function(v){
+    var statusChip = (premium && v.status) ? ('<span style="font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:20px;background:'+(v.status==='Active'?'#dcfce7':'#e2e8f0')+';color:'+(v.status==='Active'?'#166534':'#475569')+';margin-left:6px;">'+v.status+'</span>') : '';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #e8edf8;border-radius:11px;padding:10px 13px;background:#f8faff;">'
+      +'<div><div style="font-size:.76rem;font-weight:700;color:#0f172a;">'+esc2(v.name)+statusChip+'</div><div style="font-size:.66rem;color:#6b7280;">'+esc2(v.contact||'')+(v.role?(' · '+esc2(v.role)):'')+'</div></div>'
+      +'<button data-delvol="'+v.id+'" style="font-size:.66rem;font-weight:700;color:#dc2626;background:#fff;border:1.5px solid #fecaca;border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;">Remove</button></div>';
+  }).join('') : '<p style="font-size:.72rem;color:#6b7280;">No volunteers added yet.</p>';
+}
+async function addVolunteer(){
+  var premium = isPremiumFP();
+  if(!premium && volsCache.length >= FREE_VOLUNTEER_LIMIT){
+    showToast('Free plan is limited to '+FREE_VOLUNTEER_LIMIT+' volunteers. Upgrade to add more.');
+    return;
+  }
+  var name = document.getElementById('vol-name').value.trim();
+  if(!name){ showToast('Please enter a name'); return; }
+  await addFoundationVolunteer(
+    currentFoundation.userId,
+    name,
+    document.getElementById('vol-contact').value.trim(),
+    premium ? document.getElementById('vol-role').value.trim() : '',
+    premium ? document.getElementById('vol-status').value : ''
+  );
+  document.getElementById('vol-name').value=''; document.getElementById('vol-contact').value='';
+  if(document.getElementById('vol-role')) document.getElementById('vol-role').value='';
+  showToast('Volunteer added!');
+  renderVols();
+}
+document.getElementById('volList').addEventListener('click', async function(e){
+  var id = e.target.getAttribute('data-delvol');
+  if(!id) return;
+  await deleteFoundationVolunteer(id);
+  renderVols();
+});
+
+/* ---- LOCATIONS (1 free, multiple for Verified Partner) ---- */
+var locsCache = [];
+async function renderLocs(){
+  var premium = isPremiumFP();
+  document.getElementById('locPlanTag').textContent = premium ? 'Multiple locations' : 'Basic';
+  document.getElementById('locPlanTag').style.background = premium ? '#fef3c7' : '#e0eeff';
+  document.getElementById('locPlanTag').style.color = premium ? '#92400e' : '#1a3d7a';
+  document.getElementById('locSub').textContent = premium
+    ? 'Verified Partner: add multiple locations so donors can find the one closest to them.'
+    : 'Where donors can find or reach your foundation. Free plan: 1 location.';
+  locsCache = await getFoundationLocations(currentFoundation.userId);
+  var locs = locsCache;
+  var atLimit = !premium && locs.length >= 1;
+  document.getElementById('locLocked').style.display = atLimit ? '' : 'none';
+  document.getElementById('locForm').style.display = atLimit ? 'none' : '';
+  document.getElementById('locActions').style.display = atLimit ? 'none' : '';
+  document.getElementById('locList').innerHTML = locs.length ? locs.map(function(l){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #e8edf8;border-radius:11px;padding:10px 13px;background:#f8faff;">'
+      +'<div><div style="font-size:.76rem;font-weight:700;color:#0f172a;">'+esc2(l.name)+'</div><div style="font-size:.66rem;color:#6b7280;">'+esc2(l.address)+'</div></div>'
+      +'<button data-delloc="'+l.id+'" style="font-size:.66rem;font-weight:700;color:#dc2626;background:#fff;border:1.5px solid #fecaca;border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;">Remove</button></div>';
+  }).join('') : '<p style="font-size:.72rem;color:#6b7280;">No locations added yet.</p>';
+}
+async function addLocation(){
+  var premium = isPremiumFP();
+  if(!premium && locsCache.length >= 1){ showToast('Upgrade to Verified Partner to add more locations'); return; }
+  var name = document.getElementById('loc-name').value.trim();
+  var addr = document.getElementById('loc-address').value.trim();
+  if(!name || !addr){ showToast('Please fill in the location name and address'); return; }
+  await addFoundationLocation(currentFoundation.userId, name, addr);
+  document.getElementById('loc-name').value=''; document.getElementById('loc-address').value='';
+  showToast('Location added!');
+  renderLocs();
+}
+document.getElementById('locList').addEventListener('click', async function(e){
+  var id = e.target.getAttribute('data-delloc');
+  if(!id) return;
+  await deleteFoundationLocation(id);
+  renderLocs();
+});
+
+// Se llama una vez que initFoundationProfilePage ya cargó currentFoundation.
+async function initTeamVolunteersLocations(){
+  currentFoundation.userId = currentFoundation.userId || (await getCurrentUser()).id;
+  await renderTeam();
+  await renderVols();
+  await renderLocs();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hope Hands — Diagrama de Flujo del Sistema</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  body{background:linear-gradient(160deg,#f4f8fc 0%,#e8f1f8 100%);color:#1a1a2e;padding:40px 24px;min-height:100vh;}
+  .wrap{max-width:1180px;margin:0 auto;}
+  h1{color:#305471;font-size:1.7rem;font-weight:800;text-align:center;}
+  .sub{text-align:center;color:#1a1a2e;font-size:.9rem;margin:6px 0 34px;}
+  .flow{display:flex;flex-direction:column;align-items:center;}
+  .node{background:#fff;border:2px solid #4793a7;border-radius:14px;padding:13px 26px;font-weight:600;font-size:.92rem;color:#305471;box-shadow:0 6px 18px rgba(48,84,113,.10);text-align:center;min-width:230px;}
+  .node.start{background:linear-gradient(135deg,#305471,#4793a7);color:#fff;border:none;}
+  .node.end{background:#305471;color:#fff;border:none;}
+  .node small{display:block;font-weight:400;font-size:.72rem;opacity:.75;margin-top:2px;color:inherit;}
+  .arrow{width:2px;height:26px;background:#4793a7;position:relative;margin:2px 0;}
+  .arrow::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#4793a7;}
+  .split{display:flex;gap:60px;align-items:flex-start;margin-top:4px;}
+  .branch{display:flex;flex-direction:column;align-items:center;}
+  .branch-title{font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#4793a7;background:#fff;border:1.5px solid #4793a7;border-radius:999px;padding:5px 18px;margin-bottom:10px;}
+  .split-bar{width:520px;height:2px;background:#4793a7;margin:0 auto 0;position:relative;}
+  .split-bar::before,.split-bar::after{content:'';position:absolute;top:0;width:2px;height:20px;background:#4793a7;}
+  .split-bar::before{left:0;} .split-bar::after{right:0;}
+  .legend{margin-top:40px;background:#fff;border-radius:16px;padding:20px 26px;box-shadow:0 6px 18px rgba(48,84,113,.10);}
+  .legend h2{color:#305471;font-size:1rem;margin-bottom:10px;}
+  .legend p{font-size:.83rem;line-height:1.65;}
+  .legend b{color:#305471;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Hope Hands — Flujo completo del sistema</h1>
+  <p class="sub">Recorrido de usuario de inicio a fin, sin errores ni páginas huérfanas</p>
+
+  <div class="flow">
+    <div class="node start">Inicio<small>home.html — página pública</small></div>
+    <div class="arrow"></div>
+    <div class="node">Explorar plataforma<small>foundations · campaigns · about (incluye how it works) · resources · faqs · contact</small></div>
+    <div class="arrow"></div>
+    <div class="node">Acceso unificado<small>login.html — selector con pestañas Log in / Sign up</small></div>
+    <div class="arrow"></div>
+    <div class="split-bar"></div>
+    <div class="split">
+
+      <div class="branch">
+        <div class="branch-title">Donador</div>
+        <div class="node">Registro / Inicio de sesión<small>signup-donador.html · login-donador.html</small></div>
+        <div class="arrow"></div>
+        <div class="node">Dashboard<small>donador/dashboard.html — resumen personalizado</small></div>
+        <div class="arrow"></div>
+        <div class="node">Registrar información<small>apoyar campaña · guardar favoritas · completar perfil</small></div>
+        <div class="arrow"></div>
+        <div class="node">Consultar información<small>mi impacto e historial de donaciones · fundaciones · campañas</small></div>
+        <div class="arrow"></div>
+        <div class="node">Editar<small>cuenta unificada: perfil, preferencias y ajustes</small></div>
+        <div class="arrow"></div>
+        <div class="node">Eliminar<small>quitar campañas guardadas · restablecer ajustes</small></div>
+        <div class="arrow"></div>
+        <div class="node end">Cerrar sesión<small>con diálogo de confirmación → login</small></div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-title">Fundación</div>
+        <div class="node">Registro / Inicio de sesión<small>signup-fundacion.html · login-fundacion.html</small></div>
+        <div class="arrow"></div>
+        <div class="node">Dashboard<small>fundacion/dashboard.html — panel de gestión</small></div>
+        <div class="arrow"></div>
+        <div class="node">Registrar información<small>crear campaña · agregar recurso · completar perfil</small></div>
+        <div class="arrow"></div>
+        <div class="node">Consultar información<small>campañas · productos · donantes</small></div>
+        <div class="arrow"></div>
+        <div class="node">Editar<small>cuenta unificada de la fundación: perfil y ajustes</small></div>
+        <div class="arrow"></div>
+        <div class="node">Eliminar<small>desactivar / eliminar cuenta con confirmación</small></div>
+        <div class="arrow"></div>
+        <div class="node end">Cerrar sesión<small>con diálogo de confirmación → login</small></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="legend">
+    <h2>Notas de navegación</h2>
+    <p><b>Menú principal:</b> presente en todas las páginas públicas (sidebar) y en ambos dashboards. <b>Logo:</b> visible en cada pantalla y enlaza al inicio de su sección. <b>Botón Regresar:</b> disponible en todas las páginas de registro e inicio de sesión. <b>0 páginas huérfanas · 0 enlaces rotos · 0 botones sin función</b> — verificado con auditoría automatizada sobre las 27 páginas del proyecto.</p>
+  </div>
+</div>
+</body>
+</html>

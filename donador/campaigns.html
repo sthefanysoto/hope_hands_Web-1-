@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Campaigns – Hope Hands</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+:root{--navy:#071d5e;--blue:#1a4a94;--bright:#2478cc;--accent:#1a4a94;--bg:#f4f7ff;--card:#fff;--text:#0f172a;--muted:#6b7280;--line:#e2e8f8;--soft:#f8faff;--success:#16a34a;--danger:#dc2626}
+html,body{height:100%;background:var(--bg);color:var(--text)}
+body{overflow:hidden}.app{display:flex;height:100vh}.sidebar{width:240px;flex-shrink:0;background:linear-gradient(168deg,#071d5e 0%,#0d2878 18%,#1a4a94 50%,#1e62b0 72%,#2478cc 100%);display:flex;flex-direction:column;overflow:hidden}
+.sb-top{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1)}.sb-brand{display:flex;align-items:center;gap:10px;text-decoration:none}.brand-mark{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}.brand-mark svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.sb-brand span{font-size:1rem;font-weight:800;color:#fff}.sb-user{margin-top:12px;padding:9px 11px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;gap:9px}.sb-av,.tb-av{border-radius:50%;background:linear-gradient(135deg,#1a6fc4,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;flex-shrink:0}.sb-av{width:30px;height:30px;font-size:.68rem}.sb-uname{font-size:.76rem;font-weight:700;color:#fff}.sb-utag{font-size:.6rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:3px;margin-top:1px}.sb-utag span{width:5px;height:5px;border-radius:50%;background:#22c55e}.sb-nav{flex:1;overflow-y:auto;padding:6px 0}.sb-group{padding:10px 16px 3px;font-size:.58rem;font-weight:700;color:rgba(255,255,255,.32);text-transform:uppercase;letter-spacing:.07em}.sb-nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.7);text-decoration:none;font-size:.8rem;font-weight:500;border-left:3px solid transparent;transition:all .15s}.sb-nav a:hover{color:#fff;background:rgba(255,255,255,.08)}.sb-nav a.active{color:#fff;background:rgba(255,255,255,.13);border-left-color:#60a5fa;font-weight:600}.sb-nav a svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.sb-bottom{padding:12px}.sb-tip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.sb-tip p{font-size:.68rem;color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:8px}.sb-tip a{display:block;background:#fff;color:#1a3d7a;border-radius:8px;padding:7px;font-size:.7rem;font-weight:700;text-decoration:none;text-align:center}.sb-tip a:hover{background:#dbeafe}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}.topbar{height:56px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0}.tb-l{display:flex;align-items:center;gap:8px}.tb-logo{width:25px;height:25px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--bright));display:flex;align-items:center;justify-content:center}.tb-logo svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}.tb-l span{font-size:.88rem;font-weight:700;color:#1a3d7a}.tb-r{display:flex;align-items:center;gap:12px}.tb-bell{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}.tb-bell::after{content:'';position:absolute;top:5px;right:5px;width:6px;height:6px;background:#ef4444;border-radius:50%;border:2px solid #fff}.tb-bell svg{width:14px;height:14px;stroke:#6b7280;fill:none;stroke-width:2}.tb-user{display:flex;align-items:center;gap:7px;background:#f0f5ff;border-radius:20px;padding:3px 12px 3px 3px;border:1px solid var(--line)}.tb-av{width:26px;height:26px;font-size:.62rem}.tb-user span{font-size:.76rem;font-weight:600;color:#1a3d7a}.content{flex:1;overflow-y:auto;padding:22px 28px 36px}.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:20px}.page-head h1{font-size:1.3rem;font-weight:800}.page-head p{font-size:.76rem;color:var(--muted);margin-top:3px;line-height:1.5}.primary-btn,.secondary-btn,.danger-btn{border-radius:10px;padding:10px 17px;font-size:.76rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;transition:.15s}.primary-btn{background:linear-gradient(135deg,var(--blue),var(--bright));border:none;color:#fff}.primary-btn:hover{opacity:.9;transform:translateY(-1px)}.secondary-btn{background:#fff;border:1.5px solid var(--line);color:#1a3d7a}.secondary-btn:hover{border-color:var(--accent);color:var(--accent)}.danger-btn{background:#fff;border:1.5px solid #fecaca;color:var(--danger)}.danger-btn:hover{background:#fef2f2}.primary-btn svg,.secondary-btn svg,.danger-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 4px rgba(15,23,42,.04)}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.69rem;font-weight:700;color:#374151}.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:10px 11px;font-size:.76rem;color:#1f2937;outline:none;font-family:'Poppins',sans-serif}.field textarea{min-height:96px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,111,196,.08)}.helper{font-size:.62rem;color:#9ca3af;line-height:1.45}.toast{position:fixed;right:24px;bottom:24px;background:#0f172a;color:#fff;border-radius:11px;padding:11px 15px;font-size:.74rem;font-weight:600;box-shadow:0 12px 30px rgba(15,23,42,.25);opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s;z-index:1000}.toast.show{opacity:1;transform:translateY(0)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.48);display:none;align-items:center;justify-content:center;padding:20px;z-index:900}.modal-backdrop.show{display:flex}.modal{background:#fff;width:min(620px,100%);max-height:90vh;overflow:auto;border-radius:18px;box-shadow:0 24px 70px rgba(15,23,42,.25)}.modal-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:1rem}.modal-close{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:1rem}.modal-body{padding:20px}.modal-actions{display:flex;justify-content:flex-end;gap:9px;padding:15px 20px;border-top:1px solid var(--line)}
+@media(max-width:900px){body{overflow:auto}.app{height:auto;min-height:100vh}.sidebar{width:76px}.sb-brand span,.sb-user>div:last-child,.sb-group,.sb-nav a:not(.active){font-size:0}.sb-nav a{justify-content:center;padding:12px}.sb-nav a svg{width:19px;height:19px}.sb-bottom{display:none}.sb-top{padding:16px 12px}.sb-brand{justify-content:center}.sb-user{justify-content:center;padding:8px}.content{padding:18px}.topbar{padding:0 18px}.tb-l span{display:none}}
+@media(max-width:620px){.sidebar{display:none}.page-head{flex-direction:column}.topbar{padding:0 14px}.content{padding:16px}.tb-user span{display:none}}
+
+.hero{background:linear-gradient(130deg,#071d5e 0%,#1a4a94 55%,#2478cc 100%);border-radius:18px;padding:24px 28px;margin-bottom:18px;position:relative;overflow:hidden;color:#fff}.hero:before{content:'';position:absolute;width:220px;height:220px;border-radius:50%;right:-70px;top:-90px;background:rgba(255,255,255,.06)}.hero h1{font-size:1.25rem;position:relative}.hero p{font-size:.76rem;color:rgba(255,255,255,.75);max-width:600px;line-height:1.6;margin-top:5px;position:relative}.hero-stats{display:flex;gap:22px;margin-top:17px;position:relative}.hero-stat strong{font-size:1.2rem;display:block}.hero-stat span{font-size:.63rem;color:rgba(255,255,255,.68)}
+.toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:16px}.search-box{height:40px;flex:1;min-width:220px;max-width:330px;background:#fff;border:1.5px solid var(--line);border-radius:10px;display:flex;align-items:center;padding:0 11px}.search-box svg{width:15px;height:15px;stroke:#9ca3af;fill:none;stroke-width:2}.search-box input{border:0;outline:0;width:100%;padding:0 8px;font-size:.75rem}.filter-btn{border:1.5px solid var(--line);background:#fff;color:#6b7280;border-radius:20px;padding:7px 12px;font-size:.68rem;font-weight:600;cursor:pointer}.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}.sort-select{margin-left:auto;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 10px;font-size:.7rem;color:#4b5563;outline:none}
+.campaign-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.campaign-card{overflow:hidden;transition:.2s}.campaign-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.08)}.campaign-cover{height:116px;padding:15px;display:flex;align-items:flex-end;justify-content:space-between;color:#fff;position:relative}.cover-blue{background:linear-gradient(135deg,#b8d4f0,#dceafa)}.cover-green{background:linear-gradient(135deg,#b8e8ce,#dcf5e6)}.cover-purple{background:linear-gradient(135deg,#c9bfe8,#e6dff5)}.cover-orange{background:linear-gradient(135deg,#f0d3a8,#f8ead0)}.cover-rose{background:linear-gradient(135deg,#f0bcc4,#f8dde2)}.cover-teal{background:linear-gradient(135deg,#b0e0da,#dbf3ef)}.cover-icon{font-size:2rem}.campaign-cover{color:#1a3d7a}.urgent{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);color:#1a3d7a;backdrop-filter:blur(5px);border-radius:20px;padding:3px 8px;font-size:.58rem;font-weight:700}.save-btn{position:absolute;right:11px;top:10px;width:31px;height:31px;border-radius:9px;border:1px solid rgba(26,61,122,.18);background:rgba(255,255,255,.55);color:#1a3d7a;font-size:1rem;cursor:pointer}.save-btn.saved{background:#fff;color:#ef4444}.campaign-body{padding:14px}.campaign-foundation{font-size:.61rem;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.03em}.campaign-title{font-size:.84rem;font-weight:800;margin:4px 0 5px}.campaign-desc{font-size:.67rem;color:var(--muted);line-height:1.5;min-height:40px}.progress-head{display:flex;justify-content:space-between;font-size:.62rem;color:#6b7280;margin-top:12px}.progress-head strong{color:#0f172a}.progress{height:7px;background:#e8eef9;border-radius:20px;overflow:hidden;margin-top:5px}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),#38bdf8);border-radius:20px}.progress span.pf-blue{background:linear-gradient(90deg,#6ba3d8,#9fc7ea)}.progress span.pf-green{background:linear-gradient(90deg,#5cb188,#8fd4b0)}.progress span.pf-purple{background:linear-gradient(90deg,#9683cf,#bcaee8)}.progress span.pf-orange{background:linear-gradient(90deg,#d9a565,#eec38f)}.progress span.pf-rose{background:linear-gradient(90deg,#d68d9a,#eab4bd)}.progress span.pf-teal{background:linear-gradient(90deg,#5caea6,#93d6cf)}.campaign-meta{display:flex;justify-content:space-between;margin-top:10px;font-size:.61rem;color:#6b7280}.campaign-actions{display:flex;gap:7px;padding:0 14px 14px}.campaign-actions button{flex:1;padding:8px;border-radius:8px;font-size:.68rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer}.view-btn{border:1.5px solid var(--line);background:#fff;color:#1a3d7a}.support-btn{border:0;background:linear-gradient(135deg,var(--blue),var(--bright));color:#fff}.no-results{grid-column:1/-1;padding:45px;text-align:center;color:#6b7280;font-size:.78rem}.detail-banner{border-radius:13px;padding:18px;color:#1a3d7a;margin-bottom:15px}.detail-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.detail-meta div{background:#f8faff;border:1px solid var(--line);border-radius:9px;padding:9px}.detail-meta small{display:block;color:#9ca3af;font-size:.58rem}.detail-meta strong{font-size:.73rem}.needs{display:flex;gap:6px;flex-wrap:wrap}.needs span{font-size:.62rem;background:#eef5ff;color:#1a4a94;border-radius:20px;padding:4px 8px;font-weight:600}.support-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:15px}.support-type input{display:none}.support-type label{display:block;border:1.5px solid var(--line);border-radius:10px;padding:12px;text-align:center;font-size:.7rem;font-weight:700;cursor:pointer}.support-type input:checked+label{border-color:var(--accent);background:#eff6ff;color:var(--accent)}.support-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.support-note{background:#f0f7ff;border:1px solid #dbeafe;border-radius:9px;padding:10px;font-size:.65rem;color:#1e3a8a;line-height:1.5;margin-bottom:13px}
+@media(max-width:1100px){.campaign-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.campaign-grid{grid-template-columns:1fr}.hero-stats{flex-wrap:wrap}.sort-select{margin-left:0}.support-grid,.detail-meta,.support-types{grid-template-columns:1fr}}
+.sb-brand img{width:36px;filter:brightness(0) invert(1);flex-shrink:0}.tb-l img{width:24px;height:24px;object-fit:contain}
+.ham{display:none;position:fixed;top:14px;left:14px;z-index:120;width:38px;height:38px;border-radius:10px;background:#071d5e;border:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(7,29,94,.3);}
+.ham svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;}
+.veil{display:none;position:fixed;inset:0;background:rgba(7,29,94,.4);z-index:90;}
+.veil.on{display:block;}
+@media(max-width:1050px){[class*="grid-4"]{grid-template-columns:repeat(2,1fr)!important;}}
+@media(max-width:900px){
+  body{overflow:auto;}
+  .app{height:auto;min-height:100vh;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100vh;transform:translateX(-100%);transition:transform .25s ease;z-index:100;}
+  .sidebar.open{transform:translateX(0);box-shadow:6px 0 30px rgba(7,29,94,.25);}
+  .ham{display:flex;}
+  .main{width:100%;min-width:0;}
+  [class*="grid"]{grid-template-columns:1fr!important;}
+}
+@media(max-width:580px){
+  .content,.main>div{padding:14px!important;}
+}
+</style><link rel="stylesheet" href="hope-hands-theme.css">
+<!-- Supabase: cliente + autenticación + capas de datos de perfiles/campañas/donaciones -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/profiles.js"></script>
+<script src="../js/campaigns.js"></script>
+<script src="../js/donations.js"></script>
+<script src="../js/messages.js"></script>
+</head><body><div class="app">
+<button class="ham" onclick="openSB()"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+<div class="veil" id="veil" onclick="closeSB()"></div>
+<aside class="sidebar" id="sb"><div class="sb-top"><a class="sb-brand" href="dashboard.html"><img src="hope-hands-logo.png" alt="Hope Hands logo"><span>Hope Hands</span></a><div class="sb-user"><div class="sb-av js-user-initials"></div><div><div class="sb-uname js-user-name"></div><div class="sb-utag"><span></span> Active member</div></div></div></div><nav class="sb-nav"><div class="sb-group">Overview</div><a href="dashboard.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a><div class="sb-group">Discover</div><a href="foundations.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Foundations</a><a href="campaigns.html" class="active"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Campaigns</a><a href="messages.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages <span id="sbMsgBadge" style="display:none;background:#ef4444;color:#fff;font-size:.58rem;font-weight:800;border-radius:20px;padding:1px 7px;margin-left:auto;"></span></a><div class="sb-group">My Activity</div><a href="impact.html"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>My Impact</a><div class="sb-group">Account</div><a href="profile.html"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</a> <a href="../login.html" onclick="return confirm('Sign out of Hope Hands?')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</a>
+  </nav><div class="sb-bottom"><div class="sb-tip"><p>Support does not need to be money. Items, time and skills can change a life.</p><a href="profile.html">Update preferences →</a></div></div></aside><main class="main"><div class="topbar"><div class="tb-l"><img src="hope-hands-logo.png" alt="Hope Hands logo"><span>Hope Hands</span></div><div class="tb-r"><button class="tb-bell" type="button" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor" stroke="none"/></svg></button><div class="tb-user"><div class="tb-av js-user-initials"></div><span class="js-user-name"></span></div></div></div>
+<div class="content">
+  <section class="hero">
+    <h1>Campaigns that need a hand</h1>
+    <p>Find active needs from verified foundations. Hope Hands connects you directly with each organization; the platform does not collect payments.</p>
+    <div class="hero-stats"><div class="hero-stat"><strong>6</strong><span>Active campaigns</span></div><div class="hero-stat"><strong>4</strong><span>Support categories</span></div><div class="hero-stat"><strong>Panama City</strong><span>Current area</span></div></div>
+  </section>
+  <div class="toolbar">
+    <div class="search-box"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input id="campaignSearch" type="search" placeholder="Search campaigns or foundations"></div>
+    <button class="filter-btn active" data-filter="all">All</button><button class="filter-btn" data-filter="food">Food</button><button class="filter-btn" data-filter="education">Education</button><button class="filter-btn" data-filter="health">Health</button><button class="filter-btn" data-filter="shelter">Shelter</button>
+    <select id="campaignSort" class="sort-select"><option value="progress">Closest to goal</option><option value="newest">Newest</option></select>
+  </div>
+  <div id="campaignGrid" class="campaign-grid"></div>
+</div>
+<div id="detailModal" class="modal-backdrop" role="dialog" aria-modal="true"><div class="modal"><div class="modal-head"><h2 id="detailTitle">Campaign details</h2><button class="modal-close" data-close="detailModal">×</button></div><div id="detailBody" class="modal-body"></div><div class="modal-actions"><button class="secondary-btn" data-close="detailModal">Close</button><button id="detailSupportBtn" class="primary-btn">Offer support</button></div></div></div>
+<div id="supportModal" class="modal-backdrop" role="dialog" aria-modal="true"><div class="modal"><div class="modal-head"><h2>Offer support</h2><button class="modal-close" data-close="supportModal">×</button></div><form id="supportForm"><div class="modal-body"><div class="support-note">Your request will be saved as a connection request. In the complete Supabase version, it can be sent directly to the selected foundation.</div><input id="supportCampaign" type="hidden"><div class="support-types"><div class="support-type"><input id="typeItems" name="supportType" value="Items" type="radio" checked><label for="typeItems">Donate items</label></div><div class="support-type"><input id="typeVolunteer" name="supportType" value="Volunteer" type="radio"><label for="typeVolunteer">Volunteer</label></div><div class="support-type"><input id="typeContact" name="supportType" value="Contact" type="radio"><label for="typeContact">Contact foundation</label></div></div><div class="support-grid"><div class="field"><label for="supportName">Full name</label><input id="supportName" required></div><div class="field"><label for="supportEmail">Email</label><input id="supportEmail" type="email" required></div></div><div class="field" style="margin-top:10px"><label for="supportMessage">Message</label><textarea id="supportMessage" placeholder="Tell the foundation how you can help" required></textarea></div></div><div class="modal-actions"><button type="button" class="secondary-btn" data-close="supportModal">Cancel</button><button type="submit" class="primary-btn">Send request</button></div></form></div></div>
+<div id="toast" class="toast"></div>
+</main></div><script>
+// getProfile() usa una copia en memoria cargada con getDonorProfile() (Supabase)
+// al iniciar la página (ver initCampaignsPage más abajo).
+let __hhProfile={};
+function getProfile(){ return __hhProfile; }
+function initials(name){return (name||'').trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();}
+function syncUserUI(){const p=getProfile();const name=(p.fullName||'').trim();document.querySelectorAll('.js-user-name').forEach(el=>el.textContent=name);document.querySelectorAll('.js-user-initials').forEach(el=>el.textContent=initials(name));}
+function showToast(message){const t=document.getElementById('toast');if(!t)return;t.textContent=message;t.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.classList.remove('show'),2600);}
+
+// ============================================================================
+// Conectado a Supabase (ver js/campaigns.js y js/donations.js).
+// "campaigns" ya no es una lista fija: se trae con getPublicCampaigns() y
+// se adapta al mismo formato (title, foundation, progress, days, needs...)
+// que ya usaba el resto de este archivo, para no reescribir el render.
+// Los ids ahora son UUID (texto), no números.
+// ============================================================================
+let campaigns=[];
+let activeFilter='all';let activeCampaign=null;
+const grid=document.getElementById('campaignGrid'),search=document.getElementById('campaignSearch'),sort=document.getElementById('campaignSort');
+
+const COVER_CYCLE=['cover-blue','cover-green','cover-rose','cover-orange','cover-purple','cover-teal'];
+function daysLeft(endDate){ if(!endDate) return 0; const d=(new Date(endDate)-new Date())/86400000; return Math.max(0,Math.round(d)); }
+function progressPct(c){ return c.goal>0 ? Math.min(100,Math.round((c.raised||0)/c.goal*100)) : 0; }
+
+// Trae las campañas activas desde Supabase y las adapta al formato del render.
+async function loadCampaigns(){
+  const raw = await getPublicCampaigns();
+  campaigns = raw.map((c,i)=>({
+    id: c.id,
+    title: c.name,
+    foundation: c.foundationName || 'Foundation',
+    foundationId: c.foundationId,
+    category: (c.category||'').toLowerCase(),
+    icon: '💙',
+    cover: COVER_CYCLE[i % COVER_CYCLE.length],
+    progress: progressPct(c),
+    location: '', // no hay columna de ubicación por campaña en el esquema actual
+    days: daysLeft(c.endDate),
+    created: new Date(c.created).getTime(),
+    desc: c.desc,
+    needs: (c.products||[]).map(p=>p.name)
+  }));
+}
+
+function savedIds(){ return window.__hhSavedIds || []; }
+async function refreshSavedIds(){ window.__hhSavedIds = await getSavedCampaignIds(); }
+
+function renderCampaigns(){let list=campaigns.filter(c=>(activeFilter==='all'||c.category===activeFilter)&&(`${c.title} ${c.foundation} ${c.location}`.toLowerCase().includes(search.value.toLowerCase())));if(sort.value==='progress')list.sort((a,b)=>b.progress-a.progress);if(sort.value==='newest')list.sort((a,b)=>b.created-a.created);const saved=savedIds();grid.innerHTML=list.length?list.map(c=>`<article class="campaign-card card" data-id="${c.id}"><div class="campaign-cover ${c.cover}"><button class="save-btn ${saved.includes(c.id)?'saved':''}" data-save="${c.id}" title="Save campaign">${saved.includes(c.id)?'♥':'♡'}</button><span class="urgent">${c.days} days left</span></div><div class="campaign-body"><div class="campaign-foundation">${c.foundation}</div><div class="campaign-title">${c.title}</div><p class="campaign-desc">${c.desc}</p><div class="progress-head"><span>Progress</span><strong>${c.progress}%</strong></div><div class="progress"><span class="${c.cover.replace('cover-','pf-')}" style="width:${c.progress}%"></span></div><div class="campaign-meta"><span><svg width="10" height="10" viewBox="0 0 24 24" style="vertical-align:-1px;margin-right:2px;" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${c.location}</span><span class="hh-cat" style="font-size:.62rem;font-weight:700;padding:2px 9px;border-radius:20px;background:#e0eeff;color:#1a3d7a;">${c.category[0].toUpperCase()+c.category.slice(1)}</span></div></div><div class="campaign-actions"><button class="view-btn" data-view="${c.id}">View details</button><button class="support-btn" data-support="${c.id}">Offer support</button></div></article>`).join(''):'<div class="card no-results">No campaigns match your search.</div>';}
+function openModal(id){document.getElementById(id).classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function showDetails(id){activeCampaign=campaigns.find(c=>c.id===id);document.getElementById('detailTitle').textContent=activeCampaign.title;document.getElementById('detailBody').innerHTML=`<div class="detail-banner ${activeCampaign.cover}"><div style="font-size:2rem">${activeCampaign.icon}</div><strong>${activeCampaign.foundation}</strong><div style="font-size:.68rem;opacity:.85;margin-top:3px"><svg width="10" height="10" viewBox="0 0 24 24" style="vertical-align:-1px;margin-right:2px;" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${activeCampaign.location}</div></div><p style="font-size:.75rem;color:#4b5563;line-height:1.65">${activeCampaign.desc}</p><div class="detail-meta"><div><small>Progress</small><strong>${activeCampaign.progress}%</strong></div><div><small>Time left</small><strong>${activeCampaign.days} days</strong></div><div><small>Category</small><strong>${activeCampaign.category}</strong></div></div><div style="font-size:.7rem;font-weight:700;margin-bottom:7px">What they need</div><div class="needs">${activeCampaign.needs.map(n=>`<span>${n}</span>`).join('')}</div>`;openModal('detailModal')}
+function openSupport(id){activeCampaign=campaigns.find(c=>c.id===id);const p=getProfile();document.getElementById('supportCampaign').value=activeCampaign.title;document.getElementById('supportName').value=p.fullName||'';document.getElementById('supportEmail').value=p.email||'';document.getElementById('supportMessage').value=`Hello, I would like to support "${activeCampaign.title}".`;closeModal('detailModal');openModal('supportModal')}
+document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeFilter=btn.dataset.filter;renderCampaigns()}));search.addEventListener('input',renderCampaigns);sort.addEventListener('change',renderCampaigns);
+grid.addEventListener('click', async e=>{const view=e.target.closest('[data-view]'),support=e.target.closest('[data-support]'),save=e.target.closest('[data-save]');if(view)showDetails(view.dataset.view);if(support)openSupport(support.dataset.support);if(save){const id=save.dataset.save;const nowSaved=await toggleSavedCampaign(id);if(nowSaved===null)return;await refreshSavedIds();renderCampaigns();showToast(nowSaved?'Campaign saved':'Campaign removed from saved')}});
+document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>closeModal(btn.dataset.close)));document.querySelectorAll('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));document.getElementById('detailSupportBtn').addEventListener('click',()=>openSupport(activeCampaign.id));
+document.getElementById('supportForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const result = await createSupportRequest({
+    foundationId: activeCampaign.foundationId,
+    campaignId: activeCampaign.id,
+    supportType: new FormData(e.target).get('supportType'),
+    message: document.getElementById('supportMessage').value
+  });
+  if(!result.ok) return;
+  // Además de la solicitud, esto arranca la conversación real en el chat
+  // (ver js/messages.js): la fundación va a poder responder desde
+  // fundacion/messages.html, y el donador ve la respuesta en donador/messages.html.
+  const user = await getCurrentUser();
+  if(user){
+    await sendMessage(user.id, activeCampaign.foundationId, activeCampaign.id, 'donador', document.getElementById('supportMessage').value);
+  }
+  closeModal('supportModal');e.target.reset();showToast('Message sent! The foundation will reply in your Messages inbox.');
+});
+
+// Carga inicial: exige sesión de donador, trae campañas + favoritos reales.
+(async function initCampaignsPage(){
+  const user = await requireAuth('donador', '../login-donador.html');
+  if(!user) return;
+  __hhProfile = await getDonorProfile();
+  syncUserUI();
+  await Promise.all([loadCampaigns(), refreshSavedIds()]);
+  renderCampaigns();
+
+  const unread = await getUnreadMessageCount('donador');
+  const badge = document.getElementById('sbMsgBadge');
+  if(badge){ if(unread>0){ badge.textContent=unread; badge.style.display=''; } else { badge.style.display='none'; } }
+})();
+</script><script src="hope-hands-ui.js">function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('veil').classList.add('on');}
+function closeSB(){document.getElementById('sb').classList.remove('open');document.getElementById('veil').classList.remove('on');}
+</script><script>
+document.querySelectorAll('.tb-bell').forEach(function(b){
+  b.addEventListener('click', function(){ showToast('No new notifications'); });
+});
+</script>
+<script>
+(function(){
+  try{
+    var id = parseInt(new URLSearchParams(window.location.search).get('open'));
+    if(id && typeof showDetails === 'function'){ showDetails(id); }
+  }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  var M={education:['#dbeafe','#1e40af'],food:['#dcfce7','#166534'],nutrition:['#dcfce7','#166534'],health:['#fee2e2','#991b1b'],medicine:['#fee2e2','#991b1b'],cancer:['#fee2e2','#991b1b'],clothing:['#f3e8ff','#6b21a8'],hygiene:['#cffafe','#155e75'],shelter:['#fef3c7','#92400e'],housing:['#fef3c7','#92400e'],elderly:['#ffedd5','#9a3412'],'elderly care':['#ffedd5','#9a3412'],care:['#ffedd5','#9a3412'],children:['#fce7f3','#9d174d'],youth:['#fce7f3','#9d174d'],community:['#e0e7ff','#3730a3'],families:['#e0e7ff','#3730a3'],support:['#e0e7ff','#3730a3'],humanitarian:['#e0e7ff','#3730a3'],migrants:['#ccfbf1','#115e59'],refugees:['#ccfbf1','#115e59'],empowerment:['#fae8ff','#86198f'],restoration:['#fae8ff','#86198f'],sustainability:['#d1fae5','#065f46'],environment:['#d1fae5','#065f46'],technology:['#e0f2fe','#075985'],animals:['#ede9fe','#5b21a6'],other:['#e2e8f0','#475569']};
+  function paint(){
+    document.querySelectorAll('.ftag,.hh-cat').forEach(function(el){
+      var c=M[el.textContent.trim().toLowerCase()];
+      if(!c) return;
+      el.style.background=c[0]; el.style.color=c[1];
+    });
+  }
+  paint();
+  new MutationObserver(paint).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+</body></html>

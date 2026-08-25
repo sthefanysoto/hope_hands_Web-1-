@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Create Campaign - Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="foundation-style.css"/>
+<style>
+.action-icon svg{width:22px;height:22px;stroke:#2563eb;fill:none;stroke-width:2;stroke-linecap:round;}
+.stat-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.empty-icon svg{width:32px;height:32px;stroke:#1a6fc4;fill:none;stroke-width:1.8;stroke-linecap:round;}
+
+#goalMoneyField input,#goalProductsField input{width:100%;border:1.5px solid #dbe3f2;border-radius:8px;padding:10px 12px;font-family:inherit;font-size:.8rem;}
+</style>
+<!-- Supabase: cliente + autenticación + capa de datos de campañas -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/campaigns.js"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-top">
+    <a href="../home.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:8px;color:#fff;">
+      <img src="../logo.png" class="sb-logo" alt="Hope Hands"/>
+      <span class="sb-name">Hope Hands</span>
+    </a>
+    <div class="sb-role">Foundation Dashboard</div>
+  </div>
+  <nav class="sb-nav"><div class="sb-group">Overview</div>
+<a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+<div class="sb-group">Campaigns</div>
+<a href="campaigns.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>My Campaigns</a>
+<a href="add-campaign.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Create Campaign</a>
+<div class="sb-group">Resources</div>
+<a href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Needed Products</a>
+<a href="add-resource.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add Resources</a>
+<div class="sb-group">Community</div>
+<a href="donors.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Donors</a>
+<a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Reports</a>
+<div class="sb-group">Account</div>
+<a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Foundation Account</a>
+<a href="agent-of-change.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15a4 4 0 100-8 4 4 0 000 8z"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>Verified Partner</a>
+<a href="../login.html" onclick="return confirm('Sign out of Hope Hands?')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</a>
+</nav>
+  <div class="sb-bottom">
+    <div class="sb-help">
+      <p>Complete your profile to attract more donors to your foundation.</p>
+      <a href="profile.html">Complete profile</a>
+    </div>
+  </div>
+</aside>
+<div class="main">
+  <header class="topbar">
+    <div class="tb-brand">
+      <img src="../logo.png" alt="Hope Hands"/>
+      Hope Hands
+    </div>
+    <div class="tb-actions">
+      <button class="icon-btn">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </button>
+      <a href="profile.html" class="tb-user">
+        <div class="user-avatar">F</div>
+        <span class="tb-user-name">My Foundation</span>
+      </a>
+    </div>
+  </header>
+  <main class="content">
+
+<div class="page-head">
+  <div><h1>Create Campaign</h1><p>Launch a new campaign to collect the products your foundation needs most.</p></div>
+  <a href="campaigns.html" class="btn-secondary"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back</a>
+</div>
+<div class="form-layout">
+  <div class="card form-card">
+    <h2 style="margin-bottom:4px;">Campaign Details</h2>
+    <p class="sub" style="margin-bottom:18px;">Fill in the information about your campaign.</p>
+    <div class="form-grid">
+      <div class="field full">
+        <label>Campaign Name <span style="color:#ef4444;">*</span></label>
+        <input id="camp-name" placeholder="e.g. School Supplies 2026"/>
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="camp-category"><option>Education</option><option>Food</option><option>Health</option><option>Clothing</option><option>Hygiene</option><option>Elderly Care</option><option>Other</option></select>
+      </div>
+      <div class="field">
+        <label>End Date</label>
+        <input type="date" id="camp-date"/>
+      </div>
+      <div class="field full">
+        <label>Campaign Goal</label>
+        <div id="goalTypeToggle" style="display:flex;gap:8px;margin-bottom:9px;">
+          <button type="button" class="goal-type-btn active" data-type="products" style="flex:1;border:1.5px solid #1a4a94;background:#1a4a94;color:#fff;border-radius:9px;padding:9px;font-size:.74rem;font-weight:700;font-family:inherit;cursor:pointer;">Product goal</button>
+          <button type="button" class="goal-type-btn" data-type="money" style="flex:1;border:1.5px solid #dbe3f2;background:#fff;color:#374151;border-radius:9px;padding:9px;font-size:.74rem;font-weight:700;font-family:inherit;cursor:pointer;">Monetary goal ($)</button>
+        </div>
+        <div id="goalProductsField">
+          <input id="camp-goal" type="number" placeholder="e.g. 100 units" min="1"/>
+        </div>
+        <div id="goalMoneyField" style="display:none;position:relative;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#6b7280;font-size:.8rem;font-weight:700;">$</span>
+          <input id="camp-goal-money" type="number" placeholder="e.g. 500" min="1" style="padding-left:24px;"/>
+        </div>
+        <p class="sub" style="margin-top:6px;margin-bottom:0;">Choose whether donors are collecting a number of products or contributing toward a monetary target.</p>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="camp-status"><option>Active</option><option>Paused</option></select>
+      </div>
+      <div class="field" id="featuredField">
+        <label>Featured campaign <span style="font-size:.6rem;font-weight:700;color:#92400e;background:#fef3c7;border-radius:20px;padding:2px 8px;margin-left:4px;">Verified Partner</span></label>
+        <label style="display:flex;align-items:center;gap:8px;border:1.5px solid #dbe3f2;border-radius:9px;padding:10px 12px;cursor:pointer;font-size:.76rem;color:#374151;">
+          <input type="checkbox" id="camp-featured" style="width:16px;height:16px;accent-color:#1a4a94;"/>
+          Highlight this campaign across the platform
+        </label>
+      </div>
+      <div class="field full">
+        <label>Description <span style="color:#ef4444;">*</span></label>
+        <textarea id="camp-desc" placeholder="Describe what this campaign is for and who it will help..."></textarea>
+      </div>
+    </div>
+
+    <div style="margin-top:6px;">
+      <div class="section-title" style="margin-bottom:10px;">
+        <h2 style="font-size:.84rem;">Products Needed</h2>
+        <button type="button" class="btn-secondary btn-small" onclick="addProduct()">+ Add product</button>
+      </div>
+      <div id="prod-container">
+        <div class="dynamic-row">
+          <input style="border:1.5px solid #dbe3f2;border-radius:8px;padding:9px 10px;font-family:inherit;font-size:.76rem;width:100%;" placeholder="Product name"/>
+          <input style="border:1.5px solid #dbe3f2;border-radius:8px;padding:9px 10px;font-family:inherit;font-size:.76rem;" type="number" placeholder="Qty" min="1"/>
+          <button type="button" onclick="this.parentElement.remove()" style="background:#fee2e2;color:#dc2626;border:none;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:700;">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <a href="campaigns.html" class="btn-secondary">Cancel</a>
+      <button type="button" class="btn-primary" id="saveCampaignBtn" onclick="saveCampaign()">Save Campaign</button>
+    </div>
+  </div>
+  <div>
+    <div class="card preview-card" style="position:sticky;top:16px;">
+      <h3>Live Preview</h3>
+      <div class="preview-line"><div class="preview-label">Campaign name</div><div class="preview-value" id="prev-name">—</div></div>
+      <div class="preview-line"><div class="preview-label">Status</div><div><span class="status status-active">Active</span></div></div>
+      <div class="preview-line"><div class="preview-label">Goal</div><div class="preview-value" id="prev-goal">—</div></div>
+      <div style="margin-top:14px;background:#f0f6ff;border-radius:10px;padding:12px;font-size:.72rem;color:#1e40af;line-height:1.6;">
+        This is how donors will see your campaign in their search results.
+      </div>
+    </div>
+  </div>
+</div>
+
+  </main>
+</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+</script><script>
+function addProduct(){
+  const c=document.getElementById('prod-container');
+  const d=document.createElement('div');d.className='dynamic-row';
+  d.innerHTML='<input style="border:1.5px solid #dbe3f2;border-radius:8px;padding:9px 10px;font-family:inherit;font-size:.76rem;width:100%;" placeholder="Product name"/><input style="border:1.5px solid #dbe3f2;border-radius:8px;padding:9px 10px;font-family:inherit;font-size:.76rem;" type="number" placeholder="Qty" min="1"/><button type="button" onclick="this.parentElement.remove()" style="background:#fee2e2;color:#dc2626;border:none;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:700;">✕</button>';
+  c.appendChild(d);
+}
+// Live preview
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('camp-name')?.addEventListener('input',e=>{
+    document.getElementById('prev-name').textContent=e.target.value||'—';
+  });
+  document.getElementById('camp-goal')?.addEventListener('input',e=>{
+    document.getElementById('prev-goal').textContent=e.target.value?e.target.value+' units':'—';
+  });
+});
+</script>
+<script>
+window.hhSyncFoundation=function(){
+  try{
+    var p=JSON.parse(localStorage.getItem('hopeHandsFoundationProfile'))||{};
+    var name=(p.foundationName||'').trim();
+    if(name){
+      document.querySelectorAll('.tb-user-name').forEach(function(el){el.textContent=name;});
+      var ini=name.split(/\s+/).filter(Boolean).slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();
+      document.querySelectorAll('.user-avatar').forEach(function(el){if(!el.querySelector('img'))el.textContent=ini;});
+    }
+    document.querySelectorAll('.tb-user').forEach(function(el){
+      var b=el.querySelector('.premium-chip');
+      if(p.premium){
+        if(!b){
+          b=document.createElement('span');
+          b.className='premium-chip';
+          b.style.cssText='display:inline-flex;align-items:center;gap:3px;background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 8px;font-size:.58rem;font-weight:800;margin-left:2px;';
+          b.innerHTML='<svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:#92400e;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.9 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z"/></svg>Verified';
+          el.appendChild(b);
+        }
+      } else if(b){ b.remove(); }
+    });
+  }catch(e){}
+};
+window.hhSyncFoundation();
+</script>
+<script>
+(function(){
+  function hhToast(msg){
+    if(typeof showToast === 'function'){ showToast(msg); return; }
+    var t = document.getElementById('hhBellToast');
+    if(!t){
+      t = document.createElement('div'); t.id='hhBellToast';
+      t.style.cssText='position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#071d5e;color:#fff;padding:12px 22px;border-radius:12px;font-family:Poppins,sans-serif;font-size:.85rem;font-weight:500;box-shadow:0 10px 30px rgba(7,29,94,.3);opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+    clearTimeout(t._tm);
+    t._tm = setTimeout(function(){ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2600);
+  }
+  document.querySelectorAll('.tb-actions .icon-btn').forEach(function(b){
+    b.addEventListener('click', function(){ hhToast('No new notifications'); });
+  });
+})();
+</script>
+<script>
+// ============================================================================
+// Conectado a Supabase (tabla "campaigns" + "campaign_products", ver
+// sql/schema.sql y js/campaigns.js). "editId" ahora es un UUID (string) en
+// vez de un número, porque así son los ids que genera Supabase.
+// ============================================================================
+var editId = new URLSearchParams(location.search).get('edit') || null;
+
+function collectProducts(){
+  var rows = document.querySelectorAll('#prod-container .dynamic-row');
+  var out = [];
+  rows.forEach(function(r){
+    var ins = r.querySelectorAll('input');
+    var name = (ins[0]&&ins[0].value||'').trim();
+    var qty = parseInt(ins[1]&&ins[1].value)||0;
+    if(name) out.push({name:name, qty:qty>0?qty:1});
+  });
+  return out;
+}
+function getGoalType(){
+  var active = document.querySelector('.goal-type-btn.active');
+  return active ? active.getAttribute('data-type') : 'products';
+}
+async function saveCampaign(){
+  var name = document.getElementById('camp-name').value.trim();
+  var desc = document.getElementById('camp-desc').value.trim();
+  if(!name){ showToast('Please enter a campaign name'); return; }
+  if(!desc){ showToast('Please add a short description'); return; }
+  var goalType = getGoalType();
+  var goalValue = goalType==='money'
+    ? parseInt(document.getElementById('camp-goal-money').value)||0
+    : parseInt(document.getElementById('camp-goal').value)||0;
+  var data = {
+    name: name,
+    category: document.getElementById('camp-category').value,
+    endDate: document.getElementById('camp-date').value,
+    goalType: goalType,
+    goal: goalValue,
+    status: document.getElementById('camp-status').value,
+    featured: document.getElementById('camp-featured').checked,
+    desc: desc,
+    products: collectProducts()
+  };
+  var result = editId ? await updateCampaign(editId, data) : await createCampaign(data);
+  if(!result.ok) return;
+  showToast(editId ? 'Campaign updated!' : 'Campaign created!');
+  setTimeout(function(){ location.href='campaigns.html'; }, 900);
+}
+// modo edicion: precargar desde Supabase
+(async function(){
+  var user = await requireAuth('fundacion', '../login-fundacion.html');
+  if(!user) return;
+  if(!editId) return;
+  var c = await getCampaignById(editId);
+  if(!c) return;
+  document.querySelector('.page-head h1').textContent = 'Edit Campaign';
+  document.getElementById('saveCampaignBtn').textContent = 'Save Changes';
+  document.getElementById('camp-name').value = c.name;
+  document.getElementById('camp-category').value = c.category;
+  document.getElementById('camp-date').value = c.endDate||'';
+  if((c.goalType||'products')==='money'){
+    document.querySelector('.goal-type-btn[data-type="money"]').click();
+    document.getElementById('camp-goal-money').value = c.goal||'';
+  } else {
+    document.getElementById('camp-goal').value = c.goal||'';
+  }
+  document.getElementById('camp-status').value = c.status==='Ended'?'Paused':c.status;
+  document.getElementById('camp-featured').checked = !!c.featured;
+  document.getElementById('camp-desc').value = c.desc;
+  var cont = document.getElementById('prod-container');
+  if(c.products && c.products.length){
+    cont.innerHTML='';
+    c.products.forEach(function(p){
+      addProduct();
+      var last = cont.lastElementChild.querySelectorAll('input');
+      last[0].value=p.name; last[1].value=p.qty;
+    });
+  }
+})();
+</script>
+<script>
+document.querySelectorAll('.goal-type-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.goal-type-btn').forEach(function(b){
+      b.classList.remove('active'); b.style.background='#fff'; b.style.color='#374151'; b.style.borderColor='#dbe3f2';
+    });
+    btn.classList.add('active'); btn.style.background='#1a4a94'; btn.style.color='#fff'; btn.style.borderColor='#1a4a94';
+    var isMoney = btn.getAttribute('data-type')==='money';
+    document.getElementById('goalProductsField').style.display = isMoney ? 'none' : '';
+    document.getElementById('goalMoneyField').style.display = isMoney ? '' : 'none';
+  });
+});
+</script>
+<script>
+(function(){
+  var profile;
+  try{ profile = JSON.parse(localStorage.getItem('hopeHandsFoundationProfile'))||{}; }catch(e){ profile={}; }
+  if(!profile.premium){
+    var cb = document.getElementById('camp-featured');
+    cb.disabled = true;
+    var field = document.getElementById('featuredField');
+    var note = document.createElement('p');
+    note.className = 'sub';
+    note.style.cssText = 'margin-top:6px;margin-bottom:0;';
+    note.innerHTML = 'Featuring campaigns is a Verified Partner benefit. <a href="agent-of-change.html" style="color:#1a4a94;font-weight:700;">Upgrade to unlock</a>.';
+    field.appendChild(note);
+  }
+})();
+</script>
+</body>
+</html>

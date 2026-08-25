@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Impact – Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+html,body{height:100%;background:#f4f7ff;color:#0f172a;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sidebar{width:240px;flex-shrink:0;background:linear-gradient(168deg,#071d5e 0%,#0d2878 18%,#1a4a94 50%,#1e62b0 72%,#2478cc 100%);display:flex;flex-direction:column;overflow:hidden;}
+.sb-top{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);}
+.sb-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.sb-brand img{width:36px;filter:brightness(0) invert(1);}
+.sb-brand span{font-size:1rem;font-weight:800;color:#fff;}
+.sb-user{margin-top:12px;padding:9px 11px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;gap:9px;}
+.sb-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1a6fc4,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.68rem;font-weight:800;flex-shrink:0;}
+.sb-uname{font-size:0.76rem;font-weight:700;color:#fff;}
+.sb-utag{font-size:0.6rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:3px;margin-top:1px;}
+.sb-utag span{width:5px;height:5px;border-radius:50%;background:#22c55e;}
+.sb-nav{flex:1;overflow-y:auto;padding:6px 0;}
+.sb-group{padding:10px 16px 3px;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,.32);text-transform:uppercase;letter-spacing:.07em;}
+.sb-nav a{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.7);text-decoration:none;font-size:0.8rem;font-weight:500;border-left:3px solid transparent;transition:all .15s;}
+.sb-nav a:hover{color:#fff;background:rgba(255,255,255,.08);}
+.sb-nav a.active{color:#fff;background:rgba(255,255,255,.13);border-left-color:#60a5fa;font-weight:600;}
+.sb-nav a svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.sb-bottom{padding:12px;}
+.sb-tip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;}
+.sb-tip p{font-size:0.68rem;color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:8px;}
+.sb-tip a{display:block;background:#fff;color:#1a3d7a;border-radius:8px;padding:7px;font-size:0.7rem;font-weight:700;text-decoration:none;text-align:center;}
+.sb-tip a:hover{background:#dbeafe;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:56px;background:#fff;border-bottom:1px solid #e2e8f8;display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;}
+.tb-l{display:flex;align-items:center;gap:8px;}
+.tb-l img{width:24px;}
+.tb-l span{font-size:0.88rem;font-weight:700;color:#1a3d7a;}
+.tb-r{display:flex;align-items:center;gap:12px;}
+.tb-bell{width:32px;height:32px;border-radius:50%;border:1.5px solid #e2e8f8;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.tb-bell svg{width:14px;height:14px;stroke:#6b7280;fill:none;stroke-width:2;stroke-linecap:round;}
+.tb-user{display:flex;align-items:center;gap:7px;background:#f0f5ff;border-radius:20px;padding:3px 12px 3px 3px;cursor:pointer;border:1px solid #e2e8f8;}
+.tb-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1a6fc4,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.62rem;font-weight:800;}
+.tb-user span{font-size:0.76rem;font-weight:600;color:#1a3d7a;}
+.tb-user svg{width:12px;height:12px;stroke:#6b7280;fill:none;stroke-width:2;}
+
+.content{flex:1;overflow-y:auto;padding:22px 28px 36px;}
+
+/* HERO - all zero */
+.impact-hero{
+  background:linear-gradient(130deg,#071d5e 0%,#1a4a94 55%,#2478cc 100%);
+  border-radius:18px;padding:26px 28px;margin-bottom:24px;
+  position:relative;overflow:hidden;
+}
+.impact-hero::before{content:'';position:absolute;top:-50px;right:-30px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05);}
+.ih-title{font-size:1.2rem;font-weight:800;color:#fff;position:relative;z-index:1;}
+.ih-sub{font-size:0.76rem;color:rgba(255,255,255,.7);margin-top:3px;position:relative;z-index:1;margin-bottom:18px;}
+.ih-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative;z-index:1;}
+.ih-stat{background:rgba(255,255,255,.1);border-radius:14px;padding:14px;text-align:center;}
+.ih-stat-num{font-size:1.7rem;font-weight:800;color:#fff;}
+.ih-stat-lbl{font-size:0.68rem;color:rgba(255,255,255,.72);margin-top:3px;}
+
+/* EMPTY STATE */
+.empty-wrap{display:flex;align-items:center;justify-content:center;padding:30px 0;}
+.empty-main{
+  background:#fff;border-radius:18px;border:1.5px dashed #bfdbfe;
+  padding:54px 40px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;max-width:560px;
+}
+.empty-icon-lg{
+  width:80px;height:80px;border-radius:20px;
+  background:linear-gradient(135deg,#dbeafe,#bfdbfe);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.empty-icon-lg svg{width:36px;height:36px;stroke:#1a6fc4;fill:none;stroke-width:1.8;stroke-linecap:round;}
+.empty-main h2{font-size:1.05rem;font-weight:800;color:#0f172a;margin-bottom:8px;}
+.empty-main p{font-size:0.8rem;color:#6b7280;line-height:1.6;margin-bottom:22px;max-width:420px;}
+.btn-empty-lg{
+  background:linear-gradient(135deg,#1a4a94,#2070c8);color:#fff;
+  border:none;border-radius:11px;padding:12px 26px;
+  font-size:0.82rem;font-weight:700;font-family:'Poppins',sans-serif;
+  cursor:pointer;display:flex;align-items:center;gap:7px;
+  transition:opacity .15s;text-decoration:none;
+}
+.btn-empty-lg:hover{opacity:.9;}
+.btn-empty-lg svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;}
+
+/* MILESTONES PREVIEW - locked */
+.milestones-preview{max-width:680px;margin:24px auto 0;}
+.mp-title{font-size:0.85rem;font-weight:700;color:#0f172a;margin-bottom:12px;text-align:center;}
+.mp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.mp-card{
+  background:#fff;border-radius:12px;border:1px solid #e2e8f8;
+  padding:16px 10px;text-align:center;
+}
+.mp-icon{
+  width:44px;height:44px;border-radius:50%;
+  background:#f1f5f9;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 8px;font-size:1.2rem;filter:grayscale(1);opacity:.5;
+}
+.mp-name{font-size:0.7rem;font-weight:700;color:#374151;}
+.mp-desc{font-size:0.62rem;color:#9ca3af;margin-top:2px;}
+.toast{position:fixed;right:24px;bottom:24px;background:#0f172a;color:#fff;border-radius:11px;padding:11px 15px;font-size:.74rem;font-weight:600;box-shadow:0 12px 30px rgba(15,23,42,.25);opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s;z-index:1000}
+.toast.show{opacity:1;transform:translateY(0)}
+
+.ham{display:none;position:fixed;top:14px;left:14px;z-index:120;width:38px;height:38px;border-radius:10px;background:#071d5e;border:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(7,29,94,.3);}
+.ham svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;}
+.veil{display:none;position:fixed;inset:0;background:rgba(7,29,94,.4);z-index:90;}
+.veil.on{display:block;}
+@media(max-width:1050px){[class*="grid-4"]{grid-template-columns:repeat(2,1fr)!important;}}
+@media(max-width:900px){
+  body{overflow:auto;}
+  .app{height:auto;min-height:100vh;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100vh;transform:translateX(-100%);transition:transform .25s ease;z-index:100;}
+  .sidebar.open{transform:translateX(0);box-shadow:6px 0 30px rgba(7,29,94,.25);}
+  .ham{display:flex;}
+  .main{width:100%;min-width:0;}
+  [class*="grid"]{grid-template-columns:1fr!important;}
+}
+@media(max-width:580px){
+  .content,.main>div{padding:14px!important;}
+}
+</style>
+<link rel="stylesheet" href="hope-hands-theme.css">
+<!-- Supabase: cliente + autenticación + capas de datos de perfiles/donaciones -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/profiles.js"></script>
+<script src="../js/donations.js"></script>
+</head>
+<body>
+<div class="app">
+<button class="ham" onclick="openSB()"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+<div class="veil" id="veil" onclick="closeSB()"></div>
+
+
+<aside class="sidebar" id="sb">
+  <div class="sb-top">
+    <a class="sb-brand" href="dashboard.html">
+      <img src="hope-hands-logo.png" alt="Hope Hands"/>
+      <span>Hope Hands</span>
+    </a>
+    <div class="sb-user">
+      <div class="sb-av js-user-initials"></div>
+      <div>
+        <div class="sb-uname js-user-name"></div>
+        <div class="sb-utag"><span></span> Online</div>
+      </div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-group">Overview</div>
+    <a href="dashboard.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+    <div class="sb-group">Discover</div>
+    <a href="foundations.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Foundations</a>
+    <a href="campaigns.html"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Campaigns</a>
+    <div class="sb-group">My Activity</div>
+    <a href="impact.html" class="active"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>My Impact</a>
+    <div class="sb-group">Account</div>
+    <a href="profile.html"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</a> <a href="../login.html" onclick="return confirm('Sign out of Hope Hands?')"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</a>
+  </nav>
+  <div class="sb-bottom">
+    <div class="sb-tip">
+      <p>Your impact dashboard will fill up as soon as you donate.</p>
+      <a href="campaigns.html">Donate now</a>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l">
+      <img src="hope-hands-logo.png" alt="Hope Hands"/>
+      <span>Hope Hands</span>
+    </div>
+    <div class="tb-r">
+      <div class="tb-bell"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+      <div class="tb-user">
+        <div class="tb-av js-user-initials"></div>
+        <span class="js-user-name"></span>
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- HERO - empty -->
+    <div class="impact-hero">
+      <div class="ih-title">Your Impact Starts Here 💙</div>
+      <div class="ih-sub">Once you make your first donation, you'll see your impact grow here.</div>
+      <div class="ih-stats">
+        <div class="ih-stat"><div class="ih-stat-num">0</div><div class="ih-stat-lbl">Products Donated</div></div>
+        <div class="ih-stat"><div class="ih-stat-num">0</div><div class="ih-stat-lbl">Children Helped</div></div>
+        <div class="ih-stat"><div class="ih-stat-num">0</div><div class="ih-stat-lbl">Foundations Supported</div></div>
+        <div class="ih-stat"><div class="ih-stat-num">0</div><div class="ih-stat-lbl">Impact Points</div></div>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-wrap">
+      <div class="empty-main">
+        <div class="empty-icon-lg">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h2>You haven't donated yet</h2>
+        <p>When you make your first donation, your donation history will appear here along with charts, milestones and the real difference you're making in Panama.</p>
+        <a href="campaigns.html" class="btn-empty-lg">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Make your first donation
+        </a>
+      </div>
+    </div>
+
+    <!-- MILESTONES PREVIEW (locked) -->
+    <div class="milestones-preview">
+      <div class="mp-title">Milestones you can unlock</div>
+      <div class="mp-grid">
+        <div class="mp-card">
+          <div class="mp-icon">🌱</div>
+          <div class="mp-name">First Donation</div>
+          <div class="mp-desc">Make your first donation</div>
+        </div>
+        <div class="mp-card">
+          <div class="mp-icon">🤝</div>
+          <div class="mp-name">Helping Hand</div>
+          <div class="mp-desc">Support 5 foundations</div>
+        </div>
+        <div class="mp-card">
+          <div class="mp-icon">⭐</div>
+          <div class="mp-name">Generous Heart</div>
+          <div class="mp-desc">Donate 100 products</div>
+        </div>
+        <div class="mp-card">
+          <div class="mp-icon">🏆</div>
+          <div class="mp-name">Top 10 Donor</div>
+          <div class="mp-desc">Reach the leaderboard</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+
+// Conectado a Supabase: perfil real + donaciones reales (usadas para
+// decidir si se muestra el "empty state" o datos de impacto).
+let loaded={};
+function getProfile(){ return loaded; }
+function initials(name){return (name||'').trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();}
+function syncUserUI(){const p=getProfile();const name=(p.fullName||'').trim();document.querySelectorAll('.js-user-name').forEach(el=>el.textContent=name);document.querySelectorAll('.js-user-initials').forEach(el=>el.textContent=initials(name));}
+function showToast(message){const t=document.getElementById('toast');if(!t)return;t.textContent=message;t.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.classList.remove('show'),2600);}
+
+(async function initImpactPage(){
+  const user = await requireAuth('donador', '../login-donador.html');
+  if(!user) return;
+  loaded = await getDonorProfile();
+  syncUserUI();
+  // Las donaciones reales ya se pueden traer con getDonorDonations() (js/donations.js).
+  // Esta página todavía muestra el estado "aún no hay donaciones" siempre;
+  // mostrar gráficas reales de impacto queda para la siguiente iteración.
+  const donations = await getDonorDonations();
+  window.__hhDonations = donations;
+})();
+
+</script>
+<script src="hope-hands-ui.js">function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('veil').classList.add('on');}
+function closeSB(){document.getElementById('sb').classList.remove('open');document.getElementById('veil').classList.remove('on');}
+</script><div id="toast" class="toast"></div>
+<script>
+document.querySelectorAll('.tb-bell').forEach(function(b){
+  b.addEventListener('click', function(){ showToast('No new notifications'); });
+});
+</script>
+</body>
+</html>

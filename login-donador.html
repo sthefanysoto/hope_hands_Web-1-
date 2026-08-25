@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Log in – Donor – Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body{ overflow:hidden; display:grid; grid-template-columns:1fr 1fr; height:100vh; }
+
+.left{
+    background:
+        radial-gradient(circle at top right,#6bc2eb 0%,transparent 35%),
+        linear-gradient(155deg,#2e76a7 0%,#264d88 55%,#2880a0 100%);
+    display:flex; flex-direction:column;
+    padding:32px 44px; position:relative; overflow:hidden;
+}
+.logo-container{
+    display:flex; align-items:center; gap:12px;
+    color:white; font-size:20px; font-weight:700;
+    text-decoration:none; z-index:2;
+}
+.logo-container img{ width:60px; filter: brightness(0) invert(1); }
+.left-body{
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; z-index:2; padding-bottom:40px;
+}
+.left-body h2{
+    font-size:clamp(1.6rem,2.8vw,2.4rem); font-weight:700;
+    color:white; line-height:1.3; margin-bottom:14px;
+}
+.left-body h2 .accent{ color:#7dd3fc; }
+.left-body p{ font-size:0.92rem; color:rgba(255,255,255,.82); line-height:1.75; max-width:300px; margin-bottom:36px; }
+.left-ilus{ width:clamp(150px,20vw,210px); z-index:2; }
+.right{
+    background:#fff; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:40px 56px; overflow-y:auto;
+}
+.form-box{ width:100%; max-width:420px; }
+
+.back-link{
+    display:flex; align-items:center; gap:6px;
+    font-size:0.82rem; font-weight:500; color:#6b7280;
+    text-decoration:none; margin-bottom:26px; transition:color .15s;
+}
+.back-link:hover{ color:#1a6fc4; }
+.back-link svg{ width:16px; height:16px; }
+
+.form-title{ font-size:1.7rem; font-weight:800; color:#0f172a; margin-bottom:6px; line-height:1.2; }
+.form-title span{ color:#1a6fc4; display:block; }
+.form-sub{ font-size:0.82rem; color:#6b7280; margin-bottom:26px; line-height:1.6; }
+
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:0.8rem; font-weight:600; color:#374151; margin-bottom:5px; }
+.input-wrap{
+    display:flex; align-items:center;
+    border:1.5px solid #e5e7eb; border-radius:10px;
+    overflow:hidden; background:#fff; transition:border-color .15s;
+}
+.input-wrap:focus-within{ border-color:#1a6fc4; box-shadow:0 0 0 3px rgba(26,111,196,.08); }
+.input-wrap .ic{
+    width:42px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.input-wrap .ic svg{ width:16px; height:16px; stroke:#9ca3af; }
+.input-wrap input{
+    flex:1; padding:12px 12px 12px 0;
+    border:none; outline:none;
+    font-size:0.85rem; color:#111827;
+    font-family:'Poppins',sans-serif; background:transparent;
+}
+.input-wrap input::placeholder{ color:#9ca3af; }
+.toggle-pw{
+    width:42px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; background:none; border:none;
+}
+.toggle-pw svg{ width:16px; height:16px; stroke:#9ca3af; }
+
+.forgot{ text-align:right; margin-bottom:18px; }
+.forgot a{ font-size:0.78rem; color:#1a6fc4; font-weight:600; text-decoration:none; }
+.forgot a:hover{ text-decoration:underline; }
+
+.btn-submit{
+    width:100%; padding:14px;
+    background:#1a6fc4; border:none; border-radius:12px;
+    color:#fff; font-size:0.92rem; font-weight:700;
+    font-family:'Poppins',sans-serif; cursor:pointer;
+    transition:background .15s; margin-top:4px;
+}
+.btn-submit:hover{ background:#1248a0; }
+
+.divider{
+    display:flex; align-items:center; gap:12px;
+    margin:18px 0; font-size:0.78rem; color:#9ca3af;
+}
+.divider::before,.divider::after{ content:''; flex:1; height:1px; background:#e5e7eb; }
+
+.social-btns{ display:flex; gap:10px; margin-bottom:4px; }
+.btn-social{
+    flex:1; padding:11px; border-radius:10px;
+    border:1.5px solid #e5e7eb; background:#fff;
+    font-size:0.8rem; font-weight:600; color:#374151;
+    font-family:'Poppins',sans-serif; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:border-color .15s,background .15s;
+}
+.btn-social:hover{ border-color:#1a6fc4; background:#f0f7ff; }
+.btn-social svg{ width:16px; height:16px; }
+
+.form-footer{ text-align:center; margin-top:16px; font-size:0.8rem; color:#6b7280; }
+.form-footer a{ color:#1a6fc4; font-weight:600; text-decoration:none; }
+.form-footer a:hover{ text-decoration:underline; }
+.left-waves{
+    position:absolute; bottom:0; left:0; width:100%; z-index:1;
+}
+
+@media(max-width:860px){
+    body{ grid-template-columns:1fr; overflow:auto; }
+    .left{ min-height:220px; padding:24px; }
+    .left-body p{ display:none; }
+    .right{ padding:32px 24px; }
+}
+</style>
+</head>
+<body>
+<div class="left">
+    <a class="logo-container" href="home.html">
+        <img src="logo.png" alt="Hope Hands"/>
+        <span>Hope Hands</span>
+    </a>
+    <div class="left-body">
+        <h2>Thank you for wanting to<br><span class="accent">make a difference</span></h2>
+        <p>Your support transforms lives and builds a better future for everyone.</p>
+        <svg class="left-ilus" viewBox="0 0 220 200" fill="none">
+            <rect x="46" y="112" width="128" height="68" rx="8" fill="rgba(255,255,255,.9)"/>
+            <rect x="38" y="98" width="144" height="20" rx="5" fill="rgba(255,255,255,.95)"/>
+            <path d="M110 98 C110 98 102 72 102 58 C102 50 107 46 112 49 C114 50.2 115.5 52.8 110 62" stroke="rgba(255,255,255,.92)" stroke-width="16" stroke-linecap="round" fill="none"/>
+            <path d="M116 56 C120 47 128 45 131 51 C133 57 129 65 122 69" stroke="rgba(255,255,255,.78)" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <path d="M110 144 C110 144 94 135 94 125 C94 120 97.5 117.5 102 119 C104 119.8 107 122 110 125 C113 122 116 119.8 118 119 C122.5 117.5 126 120 126 125 C126 135 110 144 110 144Z" fill="white"/>
+            <circle cx="74" cy="80" r="5" fill="rgba(255,255,255,.5)"/>
+            <circle cx="64" cy="65" r="3.5" fill="rgba(255,255,255,.4)"/>
+            <circle cx="148" cy="76" r="5" fill="rgba(255,255,255,.5)"/>
+            <circle cx="158" cy="61" r="3.5" fill="rgba(255,255,255,.4)"/>
+            <circle cx="140" cy="52" r="3" fill="rgba(255,255,255,.35)"/>
+            <circle cx="82" cy="50" r="3" fill="rgba(255,255,255,.35)"/>
+            <ellipse cx="34" cy="155" rx="14" ry="26" fill="rgba(255,255,255,.22)" transform="rotate(-28 34 155)"/>
+            <ellipse cx="186" cy="155" rx="14" ry="26" fill="rgba(255,255,255,.22)" transform="rotate(28 186 155)"/>
+        </svg>  
+    </div>
+
+<svg class="left-waves" viewBox="0 0 600 100" preserveAspectRatio="none">
+    <path d="M0,55 C100,20 200,80 300,50 C400,20 500,72 600,45 L600,100 L0,100 Z" 
+          fill="rgba(120,195,250,0.38)"/>
+    <path d="M0,72 C120,45 240,88 360,68 C460,52 540,80 600,62 L600,100 L0,100 Z" 
+          fill="rgba(210,238,255,0.3)"/>
+</svg>  
+</div>
+</div>
+<div class="right">
+    <div class="form-box">
+        <a class="back-link" href="login.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Back
+        </a>
+        <div class="form-title">Log in<span>Donor</span></div>
+        <p class="form-sub">Access your account and manage your donations to generate a positive impact.</p>
+        <div class="field">
+            <label>Email Address</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                <input type="email" id="loginEmail" placeholder="Enter your email address"/>
+            </div>
+        </div>
+        <div class="field">
+            <label>Password</label>
+            <div class="input-wrap">
+                <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+                <input type="password" id="pw2" placeholder="Enter your password"/>
+                <button class="toggle-pw" type="button" onclick="togglePw('pw2')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="forgot"><a href="contact.html">Forgot your password?</a></div>
+        <button class="btn-submit" id="loginBtn">Log in</button>
+        <div class="divider">or continue with</div>
+        <div class="social-btns">
+            <button class="btn-social" onclick="window.location.href='donador/dashboard.html'">
+                <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                Google
+            </button>
+            <button class="btn-social" onclick="window.location.href='donador/dashboard.html'">
+                <svg viewBox="0 0 24 24"><rect width="11" height="11" x="1" y="1" fill="#00A4EF"/><rect width="11" height="11" x="13" y="1" fill="#FFB900"/><rect width="11" height="11" x="1" y="13" fill="#00B050"/><rect width="11" height="11" x="13" y="13" fill="#FF0000"/></svg>
+                Microsoft
+            </button>
+        </div>
+        <p class="form-footer">Don't have an account? <a href="signup-donador.html">Sign up here</a></p>
+    </div>
+</div>
+<script>
+function togglePw(id){ var i=document.getElementById(id); i.type=i.type==='password'?'text':'password'; }
+</script>
+
+<!-- Librería oficial de Supabase (debe ir ANTES de supabase-client.js) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
+
+<script>
+// Al hacer clic en "Log in": leemos correo/contraseña y validamos con Supabase.
+// loginDonador() ya se encarga de redirigir a donador/dashboard.html si todo sale bien.
+document.getElementById('loginBtn').addEventListener('click', async function(){
+  var email = document.getElementById('loginEmail').value.trim();
+  var password = document.getElementById('pw2').value;
+  if(!email || !password){
+    showToast('Please enter your email and password.');
+    return;
+  }
+  await loginDonador(email, password);
+});
+</script>
+</body>
+</html>

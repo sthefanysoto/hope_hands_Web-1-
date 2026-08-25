@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>My Campaigns - Hope Hands</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="foundation-style.css"/>
+<style>
+.action-icon svg{width:22px;height:22px;stroke:#2563eb;fill:none;stroke-width:2;stroke-linecap:round;}
+.stat-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.empty-icon svg{width:32px;height:32px;stroke:#1a6fc4;fill:none;stroke-width:1.8;stroke-linecap:round;}
+
+</style>
+<!-- Supabase: cliente + autenticación + capa de datos de campañas -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/campaigns.js"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-top">
+    <a href="../home.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:8px;color:#fff;">
+      <img src="../logo.png" class="sb-logo" alt="Hope Hands"/>
+      <span class="sb-name">Hope Hands</span>
+    </a>
+    <div class="sb-role">Foundation Dashboard</div>
+  </div>
+  <nav class="sb-nav"><div class="sb-group">Overview</div>
+<a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</a>
+<div class="sb-group">Campaigns</div>
+<a href="campaigns.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>My Campaigns</a>
+<div class="sb-group">Resources</div>
+<a href="products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Needed Products</a>
+<a href="add-resource.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add Resources</a>
+<div class="sb-group">Community</div>
+<a href="donors.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Donors</a>
+<a href="reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Reports</a>
+<div class="sb-group">Account</div>
+<a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Foundation Account</a>
+<a href="agent-of-change.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 15a4 4 0 100-8 4 4 0 000 8z"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>Verified Partner</a>
+<a href="../login.html" onclick="return confirm('Sign out of Hope Hands?')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</a>
+</nav>
+  <div class="sb-bottom">
+    <div class="sb-help">
+      <p>Complete your profile to attract more donors to your foundation.</p>
+      <a href="profile.html">Complete profile</a>
+    </div>
+  </div>
+</aside>
+<div class="main">
+  <header class="topbar">
+    <div class="tb-brand">
+      <img src="../logo.png" alt="Hope Hands"/>
+      Hope Hands
+    </div>
+    <div class="tb-actions">
+      <button class="icon-btn">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </button>
+      <a href="profile.html" class="tb-user">
+        <div class="user-avatar">F</div>
+        <span class="tb-user-name">My Foundation</span>
+      </a>
+    </div>
+  </header>
+  <main class="content">
+
+<div class="page-head">
+  <div><h1>My Campaigns</h1><p>Manage all your foundation's donation campaigns.</p></div>
+  <a href="add-campaign.html" class="btn-primary">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> New Campaign
+  </a>
+</div>
+<div class="grid grid-4" style="margin-bottom:18px">
+  <div class="card stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div><div class="stat-value" id="stActive">0</div><div class="stat-label">Active</div></div></div>
+  <div class="card stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg></div><div><div class="stat-value" id="stPaused">0</div><div class="stat-label">Paused</div></div></div>
+  <div class="card stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="stat-value" id="stEnded">0</div><div class="stat-label">Completed</div></div></div>
+  <div class="card stat"><div class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div><div class="stat-value" id="stReceived">0</div><div class="stat-label">Items Received</div></div></div>
+</div>
+<div class="toolbar">
+  <div class="search" style="margin-left:0;flex:1;max-width:280px;">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search campaigns..." id="campSearch"/>
+  </div>
+  <button class="filter-btn active">All</button>
+  <button class="filter-btn">Active</button>
+  <button class="filter-btn">Paused</button>
+  <button class="filter-btn">Ended</button>
+</div>
+<div class="card empty" id="campEmpty">
+  <div class="empty-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+  <h2>No campaigns yet</h2>
+  <p>Create your first campaign to start connecting with donors and collecting the products your foundation needs.</p>
+  <a href="add-campaign.html" class="btn-primary">Create your first campaign</a>
+</div>
+
+  <div id="campList" style="display:flex;flex-direction:column;gap:12px;"></div>
+</main>
+</div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+window.hhSyncFoundation=function(){
+  try{
+    var p=JSON.parse(localStorage.getItem('hopeHandsFoundationProfile'))||{};
+    var name=(p.foundationName||'').trim();
+    if(name){
+      document.querySelectorAll('.tb-user-name').forEach(function(el){el.textContent=name;});
+      var ini=name.split(/\s+/).filter(Boolean).slice(0,2).map(function(w){return w[0];}).join('').toUpperCase();
+      document.querySelectorAll('.user-avatar').forEach(function(el){if(!el.querySelector('img'))el.textContent=ini;});
+    }
+    document.querySelectorAll('.tb-user').forEach(function(el){
+      var b=el.querySelector('.premium-chip');
+      if(p.premium){
+        if(!b){
+          b=document.createElement('span');
+          b.className='premium-chip';
+          b.style.cssText='display:inline-flex;align-items:center;gap:3px;background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 8px;font-size:.58rem;font-weight:800;margin-left:2px;';
+          b.innerHTML='<svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:#92400e;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.9 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z"/></svg>Verified';
+          el.appendChild(b);
+        }
+      } else if(b){ b.remove(); }
+    });
+  }catch(e){}
+};
+window.hhSyncFoundation();
+</script>
+<script>
+(function(){
+  function hhToast(msg){
+    if(typeof showToast === 'function'){ showToast(msg); return; }
+    var t = document.getElementById('hhBellToast');
+    if(!t){
+      t = document.createElement('div'); t.id='hhBellToast';
+      t.style.cssText='position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:#071d5e;color:#fff;padding:12px 22px;border-radius:12px;font-family:Poppins,sans-serif;font-size:.85rem;font-weight:500;box-shadow:0 10px 30px rgba(7,29,94,.3);opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+    clearTimeout(t._tm);
+    t._tm = setTimeout(function(){ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2600);
+  }
+  document.querySelectorAll('.tb-actions .icon-btn').forEach(function(b){
+    b.addEventListener('click', function(){ hhToast('No new notifications'); });
+  });
+})();
+</script>
+
+<script>
+// ============================================================================
+// Conectado a Supabase (tabla "campaigns", ver js/campaigns.js). readCamps()
+// ahora es async y trae las campañas reales de la fundación logueada.
+// readProds() se deja en localStorage por ahora: la estadística "Received"
+// es solo demo y todavía no existe una columna equivalente en
+// foundation_resources (próxima fase de integración).
+// ============================================================================
+async function readCamps(){ return await getFoundationCampaigns(); }
+function readProds(){try{return JSON.parse(localStorage.getItem('hopeHandsFoundationProducts'))||[];}catch(e){return [];}}
+var activeFilter='All';
+var campsCache=[]; // última lista traída de Supabase, para no repetir consultas en cada evento
+
+function statusBadge(s){
+  var map={Active:['#dcfce7','#166534'],Paused:['#fef9c3','#854d0e'],Ended:['#e2e8f0','#475569']};
+  var c=map[s]||map.Active;
+  return '<span style="font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:20px;background:'+c[0]+';color:'+c[1]+';">'+s+'</span>';
+}
+function esc(x){var d=document.createElement('div');d.textContent=x;return d.innerHTML;}
+async function renderCampaigns(){
+  campsCache = await readCamps();
+  var camps=campsCache;
+  var q=(document.getElementById('campSearch').value||'').toLowerCase();
+  document.getElementById('stActive').textContent=camps.filter(function(c){return c.status==='Active';}).length;
+  document.getElementById('stPaused').textContent=camps.filter(function(c){return c.status==='Paused';}).length;
+  document.getElementById('stEnded').textContent=camps.filter(function(c){return c.status==='Ended';}).length;
+  document.getElementById('stReceived').textContent=readProds().reduce(function(a,p){return a+(p.received||0);},0);
+  var list=camps.filter(function(c){
+    return (activeFilter==='All'||c.status===activeFilter) && c.name.toLowerCase().indexOf(q)>-1;
+  });
+  var box=document.getElementById('campList');
+  var empty=document.getElementById('campEmpty');
+  empty.style.display = camps.length ? 'none' : '';
+  box.innerHTML = list.map(function(c){
+    var prods=(c.products||[]).length;
+    return '<div class="card" style="padding:16px 18px;">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px;">'
+      +'<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'
+      +'<strong style="font-size:.86rem;color:#0f172a;">'+esc(c.name)+'</strong>'
+      +statusBadge(c.status)
+      +'<span class="hh-cat" style="font-size:.62rem;font-weight:600;padding:3px 10px;border-radius:20px;background:#e0eeff;color:#1a3d7a;">'+esc(c.category)+'</span>'
+      +(c.featured?'<span style="font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:20px;background:#fef3c7;color:#92400e;display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:#92400e;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.5 6.8L12 16.9 5.9 20.3l1.5-6.8L2.2 8.9l6.9-.6z"/></svg>Featured</span>':'')+'</div>'
+      +'<div style="display:flex;gap:8px;align-items:center;">'
+      +'<select data-status="'+c.id+'" style="border:1.5px solid #dbe3f2;border-radius:8px;padding:6px 8px;font-family:inherit;font-size:.68rem;">'
+      +['Active','Paused','Ended'].map(function(s){return '<option'+(c.status===s?' selected':'')+'>'+s+'</option>';}).join('')
+      +'</select>'
+      +'<a href="add-campaign.html?edit='+c.id+'" style="font-size:.68rem;font-weight:700;color:#1a4a94;text-decoration:none;border:1.5px solid #1a4a94;border-radius:8px;padding:6px 12px;">Edit</a>'
+      +'<button data-del="'+c.id+'" style="font-size:.68rem;font-weight:700;color:#dc2626;background:#fff;border:1.5px solid #fecaca;border-radius:8px;padding:6px 12px;cursor:pointer;font-family:inherit;">Delete</button>'
+      +'</div></div>'
+      +'<p style="font-size:.72rem;color:#6b7280;line-height:1.55;margin-bottom:8px;">'+esc(c.desc)+'</p>'
+      +'<div style="font-size:.66rem;color:#6b7280;">'+(c.goal?('Goal: '+(c.goalType==='money'?('$'+c.goal):(c.goal+' units'))+' · '):'')+prods+' product'+(prods===1?'':'s')+' listed'+(c.endDate?(' · Ends '+c.endDate):'')+'</div>'
+      +'</div>';
+  }).join('') || (camps.length ? '<div class="card" style="padding:18px;text-align:center;font-size:.74rem;color:#6b7280;">No campaigns match this filter.</div>' : '');
+}
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    activeFilter=btn.textContent.trim();
+    renderCampaigns();
+  });
+});
+document.getElementById('campSearch').addEventListener('input',renderCampaigns);
+document.getElementById('campList').addEventListener('change', async function(e){
+  var id=e.target.getAttribute('data-status');
+  if(!id) return;
+  var c=campsCache.find(function(x){return String(x.id)===id;});
+  if(!c) return;
+  var result = await updateCampaign(id, Object.assign({}, c, {status:e.target.value}));
+  if(result.ok){ renderCampaigns(); if(typeof hhToastMsg==='function'){hhToastMsg('Status updated');} }
+});
+document.getElementById('campList').addEventListener('click', async function(e){
+  var id=e.target.getAttribute('data-del');
+  if(!id) return;
+  if(!confirm('Delete this campaign? This cannot be undone.')) return;
+  var result = await deleteCampaign(id);
+  if(result.ok) renderCampaigns();
+});
+
+// Carga inicial: exige sesión de fundación.
+(async function(){
+  var user = await requireAuth('fundacion', '../login-fundacion.html');
+  if(!user) return;
+  renderCampaigns();
+})();
+</script>
+<script>
+(function(){
+  var M={education:['#dbeafe','#1e40af'],food:['#dcfce7','#166534'],nutrition:['#dcfce7','#166534'],health:['#fee2e2','#991b1b'],medicine:['#fee2e2','#991b1b'],cancer:['#fee2e2','#991b1b'],clothing:['#f3e8ff','#6b21a8'],hygiene:['#cffafe','#155e75'],shelter:['#fef3c7','#92400e'],housing:['#fef3c7','#92400e'],elderly:['#ffedd5','#9a3412'],'elderly care':['#ffedd5','#9a3412'],care:['#ffedd5','#9a3412'],children:['#fce7f3','#9d174d'],youth:['#fce7f3','#9d174d'],community:['#e0e7ff','#3730a3'],families:['#e0e7ff','#3730a3'],support:['#e0e7ff','#3730a3'],humanitarian:['#e0e7ff','#3730a3'],migrants:['#ccfbf1','#115e59'],refugees:['#ccfbf1','#115e59'],empowerment:['#fae8ff','#86198f'],restoration:['#fae8ff','#86198f'],sustainability:['#d1fae5','#065f46'],environment:['#d1fae5','#065f46'],technology:['#e0f2fe','#075985'],animals:['#ede9fe','#5b21a6'],other:['#e2e8f0','#475569']};
+  function paint(){
+    document.querySelectorAll('.ftag,.hh-cat').forEach(function(el){
+      var c=M[el.textContent.trim().toLowerCase()];
+      if(!c) return;
+      el.style.background=c[0]; el.style.color=c[1];
+    });
+  }
+  paint();
+  new MutationObserver(paint).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+</body>
+</html>

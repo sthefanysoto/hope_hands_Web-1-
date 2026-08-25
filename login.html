@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hope Hands – Log in</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body{ overflow:hidden; }
+.background{
+    width:100%; height:100vh;
+    background:
+        radial-gradient(ellipse 180% 70% at 115% 5%,rgba(255,255,255,.22) 0%,transparent 55%),
+        linear-gradient(160deg,#1a4a94 0%,#2464b8 35%,#3d8fd6 70%,#6bc2eb 100%);
+    display:flex; flex-direction:column; align-items:center;
+    position:relative;
+}
+.logo-container{
+    position:absolute; top:30px; left:35px;
+    display:flex; align-items:center; gap:12px;
+    color:white; font-size:22px; font-weight:700; text-decoration:none;
+}
+.logo-container img{ width:60px; filter: brightness(0) invert(1); }
+.back-link{
+    position:absolute; top:42px; right:40px;
+    color:rgba(255,255,255,.85); font-size:0.88rem; font-weight:500;
+    text-decoration:none; display:flex; align-items:center; gap:6px; transition:color .15s;
+}
+.back-link:hover{ color:#fff; }
+.back-link svg{ width:16px; height:16px; }
+.header-content{ margin-top:130px; text-align:center; color:white; }
+.header-content h1{ font-size:52px; font-weight:700; }
+.header-content p{ margin-top:10px; font-size:22px; font-weight:300; }
+.cards-container{ display:flex; gap:50px; margin-top:50px; z-index:10; }
+.card{
+    width:370px; min-height:390px; background:white;
+    border-radius:35px; display:flex; flex-direction:column;
+    align-items:center; padding:30px; position:relative;
+    box-shadow:0 20px 40px rgba(0,0,0,.15); cursor:pointer; transition:.3s;
+}
+.card:hover{ transform:translateY(-10px); }
+.icon-circle{
+    width:180px; height:180px; background:#eef7ffcc;
+    border-radius:50%; display:flex; justify-content:center;
+    align-items:center; margin-top:10px;
+}
+.icon-circle svg{ width:110px; height:110px; }
+.card h2{ margin-top:25px; color:#2f64ba; font-size:28px; font-weight:700; }
+.divider{ width:50px; height:4px; background:#9fd4ff; margin:15px 0; }
+.card p{ text-align:center; color:#236abb; font-size:18px; line-height:1.8; padding:0 20px; margin-bottom:60px; }
+.card::after{
+    content:""; position:absolute; bottom:0; left:0;
+    width:80%; height:55px;
+    background:linear-gradient(90deg,#ffffff,#ffffff);
+    border-radius:0 0 25px 35px;
+    clip-path: path('M0,20 C60,0 120,40 180,20 C240,0 300,40 370,20 L370,55 L0,55 Z');
+}
+
+@media(max-width:900px){
+    body{ overflow:auto; }
+    .cards-container{ flex-direction:column; margin-bottom:20px; }
+    .header-content h1{ font-size:35px; }
+    .card{ width:320px; }
+}
+.switch-auth{ margin-top:30px; margin-bottom:40px; color:rgba(255,255,255,.85); font-size:0.95rem; z-index:10; }
+.switch-auth a{ color:#fff; font-weight:700; text-decoration:underline; }
+.switch-auth a:hover{ color:#d2eeff; }
+
+.mode-toggle{display:flex;gap:0;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);border-radius:999px;padding:4px;margin:0 auto 22px;width:max-content;position:relative;z-index:2;}
+.mode-btn{border:none;background:transparent;color:#fff;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;padding:8px 26px;border-radius:999px;cursor:pointer;transition:all .2s;}
+.mode-btn.active{background:#fff;color:#1a4a94;font-weight:700;}
+</style>
+</head>
+<body>
+<div class="background">
+    <a class="logo-container" href="home.html">
+        <img src="logo.png" alt="Hope Hands">
+        <span>Hope Hands</span>
+    </a>
+    <a class="back-link" href="home.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back
+    </a>
+    <div class="header-content">
+        <div class="mode-toggle" id="modeToggle">
+        <button type="button" class="mode-btn active" data-mode="login">Log in</button>
+        <button type="button" class="mode-btn" data-mode="signup">Sign up</button>
+    </div>
+    <h1>What type of user are you?</h1>
+        <p>Select an option to continue</p>
+    </div>
+    <div class="cards-container">
+        <div class="card foundation-card">
+            <div class="icon-circle">
+                <svg viewBox="0 0 120 120" fill="none">
+                    <ellipse cx="22" cy="95" rx="12" ry="20" fill="#a8c8f0" transform="rotate(-28 22 95)"/>
+                    <ellipse cx="98" cy="95" rx="12" ry="20" fill="#a8c8f0" transform="rotate(28 98 95)"/>
+                    <rect x="24" y="56" width="72" height="58" rx="3" fill="#1a6fc4"/>
+                    <rect x="10" y="70" width="20" height="44" rx="2" fill="#2a8fd4"/>
+                    <rect x="90" y="70" width="20" height="44" rx="2" fill="#2a8fd4"/>
+                    <rect x="34" y="64" width="16" height="14" rx="2" fill="#dbeafe"/>
+                    <rect x="56" y="64" width="16" height="14" rx="2" fill="#dbeafe"/>
+                    <rect x="78" y="64" width="16" height="14" rx="2" fill="#dbeafe"/>
+                    <rect x="50" y="82" width="20" height="32" rx="2" fill="#dbeafe"/>
+                    <polygon points="60,18 18,56 102,56" fill="#0f2d5e"/>
+                    <path d="M60 32 C60 32 53 27 53 32.5 C53 37.5 60 43 60 43 C60 43 67 37.5 67 32.5 C67 27 60 32 60 32Z" fill="white"/>
+                    <rect x="16" y="78" width="12" height="10" rx="1" fill="#dbeafe"/>
+                    <rect x="92" y="78" width="12" height="10" rx="1" fill="#dbeafe"/>
+                </svg>
+            </div>
+            <h2>FOUNDATION</h2>
+            <div class="divider"></div>
+            <p>I represent a foundation or non-profit organization.</p>
+        </div>
+        <div class="card donor-card">
+            <div class="icon-circle">
+                <svg viewBox="0 0 120 120" fill="none">
+                    <rect x="18" y="72" width="84" height="36" rx="7" fill="#1a6fc4"/>
+                    <path d="M60 72 C60 72 44 61 44 46 C44 37 50 32 57 35 C58.8 36 60 38.5 60 38.5 C60 38.5 61.2 36 63 35 C70 32 76 37 76 46 C76 61 60 72 60 72Z" fill="#1a6fc4"/>
+                    <path d="M60 100 C60 100 46 92 46 84 C46 79.5 49.5 77 54 78.5 C56 79.3 58 81.5 60 84 C62 81.5 64 79.3 66 78.5 C70.5 77 74 79.5 74 84 C74 92 60 100 60 100Z" fill="white"/>
+                    <circle cx="30" cy="58" r="4" fill="#4ab8e8"/>
+                    <circle cx="22" cy="45" r="3" fill="#4ab8e8"/>
+                    <circle cx="90" cy="54" r="4" fill="#4ab8e8"/>
+                    <circle cx="98" cy="41" r="3" fill="#4ab8e8"/>
+                    <circle cx="84" cy="34" r="2.5" fill="#93c5fd"/>
+                    <circle cx="36" cy="33" r="2.5" fill="#93c5fd"/>
+                </svg>
+            </div>
+            <h2>DONORS</h2>
+            <div class="divider"></div>
+            <p>I want to support causes and make a difference through my donations.</p>
+        </div>
+    </div>
+    <p class="switch-auth" id="switchAuth">Don't have an account? <a href="#" id="switchLink">Sign up free</a></p>
+</div> 
+<svg style="position:absolute;bottom:0;left:0;width:100%;pointer-events:none;z-index:1;" 
+     viewBox="0 0 1440 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Ola de atrás -->
+  <path d="M0,80 C180,30 360,140 540,80 C720,20 900,120 1080,70 C1260,20 1380,100 1440,70 L1440,220 L0,220 Z"
+        fill="rgba(120,195,250,0.4)"/>
+
+  <!-- Ola de frente -->
+  <path d="M0,145 C150,110 320,175 500,145 C680,115 860,165 1040,138 C1220,110 1360,152 1440,128 L1440,220 L0,220 Z"
+        fill="rgba(210,238,255,0.35)"/>
+
+</svg>
+
+<script>
+(function(){
+  var mode = (location.hash === '#signup') ? 'signup' : 'login';
+  var dest = {
+    login:  { f: 'login-fundacion.html',  d: 'login-donador.html' },
+    signup: { f: 'signup-fundacion.html', d: 'signup-donador.html' }
+  };
+  var switchAuth = document.getElementById('switchAuth');
+  var switchLink = document.getElementById('switchLink');
+  function apply(){
+    document.querySelectorAll('.mode-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-mode') === mode);
+    });
+    if(mode === 'signup'){
+      switchAuth.firstChild.textContent = 'Already have an account? ';
+      switchLink.textContent = 'Log in';
+    } else {
+      switchAuth.firstChild.textContent = "Don't have an account? ";
+      switchLink.textContent = 'Sign up free';
+    }
+  }
+  document.querySelector('.foundation-card').addEventListener('click', function(){
+    window.location.href = dest[mode].f;
+  });
+  document.querySelector('.donor-card').addEventListener('click', function(){
+    window.location.href = dest[mode].d;
+  });
+  document.querySelectorAll('.mode-btn').forEach(function(b){
+    b.addEventListener('click', function(){ mode = b.getAttribute('data-mode'); apply(); });
+  });
+  switchLink.addEventListener('click', function(e){
+    e.preventDefault();
+    mode = (mode === 'login') ? 'signup' : 'login';
+    apply();
+  });
+  apply();
+})();
+</script>
+</body>
+</html>
