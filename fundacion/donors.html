@@ -448,7 +448,7 @@ function showToast(message){const t=document.getElementById('toast');if(!t)retur
 // "foundations" real (que ya tiene columnas latitude/longitude en el
 // esquema) en una próxima fase.
 (async function(){
-  const user = await requireAuth('fundacion', '../donors.html');
+  const user = await requireAuth('foundations', '../donors.html');
   if(!user) return;
   __hhProfile2 = await getDonorProfile();
   syncUserUI();
