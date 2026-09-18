@@ -77,19 +77,22 @@ async function getFoundationSupportRequests() {
 
 // ---- Donaciones -------------------------------------------------------------
 
-// data: { foundationId, campaignId, productName, quantity, amount }
-// Para campañas de productos (goal_type='products'): manda productName + quantity.
-// Para campañas de dinero (goal_type='money'): manda amount (quantity se ignora
-// para el progreso, pero la columna es NOT NULL así que se manda 1 por defecto).
-// El trigger on_donation_change (ver sql/donations_amount_addon.sql) es quien
-// decide cuál de los dos usar para sumarlo a campaigns.raised, según el
-// goal_type real de la campaña — no hace falta que el frontend lo calcule.
+// data: { donorId, foundationId, campaignId, productName, quantity, amount }
+// donorId es explícito (no se asume que quien llama es el donador): quien
+// registra la donación normalmente es la FUNDACIÓN, confirmando que ya
+// recibió lo que un donador le ofreció por Messages (ver
+// fundacion/donors.html, "Log a donation"). Para campañas de productos
+// (goal_type='products') manda productName+quantity; para campañas de
+// dinero (goal_type='money') manda amount. El trigger on_donation_change
+// (sql/donations_amount_addon.sql) decide cuál de los dos suma a
+// campaigns.raised, según el goal_type real de la campaña. RLS exige que
+// quien llame esté autenticado como ese donorId o como ese foundationId
+// (ver sql/foundation_can_log_donations_addon.sql).
 async function createDonation(data) {
-    const user = await getCurrentUser();
-    if (!user) { showToast("You must be logged in to donate."); return { ok: false }; }
+    if (!data.donorId || !data.foundationId) { showToast("Missing donor or foundation."); return { ok: false }; }
 
     const { error } = await window.supabase.from("donations").insert({
-        donor_id: user.id,
+        donor_id: data.donorId,
         foundation_id: data.foundationId,
         campaign_id: data.campaignId || null,
         product_name: data.productName || null,
