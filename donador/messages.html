@@ -10,6 +10,80 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
 body{background:#f4f7ff;color:#0f172a;}
 .app{display:flex;min-height:100vh;}
+
+/* SIDEBAR (igual que dashboard.html/profile.html, para mantener la misma estética) */
+.sidebar{
+  width:240px;flex-shrink:0;
+  background:linear-gradient(168deg,#071d5e 0%,#0d2878 18%,#1a4a94 50%,#1e62b0 72%,#2478cc 100%);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sb-top{
+  padding:22px 18px 16px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.sb-brand{display:flex;align-items:center;gap:9px;text-decoration:none;margin-bottom:14px;}
+.sb-brand img{width:34px;filter:brightness(0) invert(1);}
+.sb-brand span{font-size:0.95rem;font-weight:800;color:#fff;}
+.sb-user{
+  background:rgba(255,255,255,.1);border-radius:10px;
+  padding:10px 11px;display:flex;align-items:center;gap:9px;
+}
+.sb-av{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,#1a6fc4,#06b6d4);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:0.7rem;font-weight:800;flex-shrink:0;
+}
+.sb-uname{font-size:0.76rem;font-weight:700;color:#fff;}
+.sb-utag{
+  font-size:0.6rem;color:rgba(255,255,255,.6);
+  display:flex;align-items:center;gap:3px;margin-top:1px;
+}
+.sb-utag span{width:5px;height:5px;border-radius:50%;background:#22c55e;}
+
+.sb-nav{flex:1;overflow-y:auto;padding:6px 0;}
+.sb-group{padding:10px 16px 3px;font-size:0.58rem;font-weight:700;color:rgba(255,255,255,.32);text-transform:uppercase;letter-spacing:.07em;}
+.sb-nav a{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 16px;color:rgba(255,255,255,.7);
+  text-decoration:none;font-size:0.78rem;font-weight:500;
+  border-left:3px solid transparent;transition:all .15s;
+}
+.sb-nav a:hover{color:#fff;background:rgba(255,255,255,.07);}
+.sb-nav a.active{color:#fff;background:rgba(255,255,255,.12);border-left-color:#60a5fa;font-weight:600;}
+.sb-nav a svg{width:15px;height:15px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+
+.sb-bottom{padding:12px;}
+.sb-tip{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;padding:12px;
+}
+.sb-tip p{font-size:0.67rem;color:rgba(255,255,255,.72);line-height:1.5;margin-bottom:8px;}
+.sb-tip a{
+  display:block;background:#fff;color:#1a3d7a;
+  border-radius:8px;padding:7px;font-size:0.68rem;font-weight:700;
+  text-decoration:none;text-align:center;transition:background .15s;
+}
+.sb-tip a:hover{background:#dbeafe;}
+
+/* MAIN / TOPBAR */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{
+  height:56px;background:#fff;border-bottom:1px solid #e2e8f8;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;flex-shrink:0;
+}
+.tb-l{display:flex;align-items:center;gap:8px;}
+.tb-l img{width:24px;}
+.tb-l span{font-size:0.85rem;font-weight:700;color:#1a3d7a;}
+.tb-r{display:flex;align-items:center;gap:10px;}
+.tb-bell{width:32px;height:32px;border-radius:50%;border:1.5px solid #e2e8f8;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.tb-bell svg{width:14px;height:14px;stroke:#6b7280;fill:none;stroke-width:2;stroke-linecap:round;}
+.tb-user{display:flex;align-items:center;gap:7px;background:#f0f5ff;border-radius:20px;padding:3px 12px 3px 3px;cursor:pointer;border:1px solid #e2e8f8;}
+.tb-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1a6fc4,#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.62rem;font-weight:800;}
+.tb-user span{font-size:0.76rem;font-weight:600;color:#1a3d7a;}
+.tb-user svg{width:12px;height:12px;stroke:#6b7280;fill:none;stroke-width:2;}
+
 .msg-layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:16px;height:calc(100vh - 150px);min-height:420px;padding:0 27px 30px;}
 .conv-list{background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow-y:auto;padding:6px;}
 .conv-item{display:flex;align-items:center;gap:10px;padding:11px 10px;border-radius:11px;cursor:pointer;text-align:left;width:100%;border:0;background:transparent;font:inherit;}
@@ -36,6 +110,25 @@ body{background:#f4f7ff;color:#0f172a;}
 .page-head h1{font-size:1.38rem;font-weight:850;margin:0;}
 .page-head p{margin:4px 0 0;font-size:.76rem;color:#64748b;}
 .toast{position:fixed;right:22px;bottom:22px;background:#0f172a;color:#fff;padding:11px 15px;border-radius:10px;font-size:.72rem;font-weight:650;opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:100}.toast.show{opacity:1;transform:none}
+
+.ham{display:none;position:fixed;top:14px;left:14px;z-index:120;width:38px;height:38px;border-radius:10px;background:#071d5e;border:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(7,29,94,.3);}
+.ham svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;}
+.veil{display:none;position:fixed;inset:0;background:rgba(7,29,94,.4);z-index:90;}
+.veil.on{display:block;}
+@media(max-width:900px){
+  body{overflow:auto;}
+  .app{height:auto;min-height:100vh;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100vh;transform:translateX(-100%);transition:transform .25s ease;z-index:100;}
+  .sidebar.open{transform:translateX(0);box-shadow:6px 0 30px rgba(7,29,94,.25);}
+  .ham{display:flex;}
+  .main{width:100%;min-width:0;}
+  .msg-layout{grid-template-columns:1fr;height:auto;}
+  .conv-list{max-height:220px;}
+  .chat-pane{min-height:360px;}
+}
+@media(max-width:580px){
+  .page-head,.msg-layout{padding-left:14px!important;padding-right:14px!important;}
+}
 </style>
 <!-- Supabase: cliente + autenticación + capas de datos -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -46,6 +139,7 @@ body{background:#f4f7ff;color:#0f172a;}
 </head>
 <body>
 <div class="app">
+<button class="ham" onclick="openSB()"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
 <div class="veil" id="veil" onclick="closeSB()"></div>
 <aside class="sidebar" id="sb">
   <div class="sb-top">
@@ -211,6 +305,11 @@ async function refreshSidebarBadge(){
 
   if(conversations.length) await openConversation(conversations[0].foundationId);
 })();
+</script>
+<script src="hope-hands-ui.js"></script>
+<script>
+function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('veil').classList.add('on');}
+function closeSB(){document.getElementById('sb').classList.remove('open');document.getElementById('veil').classList.remove('on');}
 </script>
 </body>
 </html>
