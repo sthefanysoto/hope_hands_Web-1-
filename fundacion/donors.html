@@ -55,6 +55,18 @@ html,body{height:100%;background:#f4f7ff;color:#0f172a;overflow:hidden;}
 .page-head-right{display:flex;gap:10px;}
 .stat-pill{font-size:0.76rem;color:#6b7280;background:#fff;border:1px solid #e2e8f8;border-radius:8px;padding:6px 12px;}
 .stat-pill strong{color:#1a6fc4;}
+.btn-log-donation{padding:8px 15px;border-radius:8px;background:linear-gradient(135deg,#1a4a94,#2070c8);border:none;color:#fff;font-size:0.76rem;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;transition:opacity .15s;}
+.btn-log-donation:hover{opacity:.9;}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:200;align-items:center;justify-content:center;}
+.modal-backdrop.show{display:flex;}
+.modal-card{width:min(440px,92vw);background:#fff;border-radius:16px;padding:22px;max-height:90vh;overflow-y:auto;}
+.modal-card h2{margin:0 0 4px;font-size:1.05rem;color:#0f172a;}
+.modal-card .sub{font-size:0.76rem;color:#6b7280;margin-bottom:16px;}
+.modal-field{margin-bottom:13px;}
+.modal-field label{display:block;font-size:0.74rem;font-weight:700;color:#374151;margin-bottom:5px;}
+.modal-field select,.modal-field input{width:100%;border:1.5px solid #e2e8f0;border-radius:9px;padding:9px 11px;font:inherit;font-size:0.8rem;outline:0;font-family:'Poppins',sans-serif;}
+.modal-field select:focus,.modal-field input:focus{border-color:#1a6fc4;}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:6px;}
 
 /* TOOLBAR */
 .toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-shrink:0;flex-wrap:wrap;}
@@ -114,6 +126,8 @@ html,body{height:100%;background:#f4f7ff;color:#0f172a;overflow:hidden;}
 <script src="../js/auth.js"></script>
 <script src="../js/profiles.js"></script>
 <script src="../js/donations.js"></script>
+<script src="../js/campaigns.js"></script>
+<script src="../js/messages.js"></script>
 </head>
 <body>
 <div class="app">
@@ -178,8 +192,9 @@ html,body{height:100%;background:#f4f7ff;color:#0f172a;overflow:hidden;}
         <p>Everyone who has supported your foundation's campaigns.</p>
       </div>
       <div class="page-head-right">
+        <button class="btn-log-donation" id="btnLogDonation" onclick="openLogModal()">+ Log a donation</button>
         <div class="stat-pill"><strong id="donorCount">0</strong> donors</div>
-        <div class="stat-pill"><strong id="totalRaised">$0</strong> raised total</div>
+        <div class="stat-pill"><strong id="totalRaised">0 products</strong> received total</div>
       </div>
     </div>
 
@@ -200,7 +215,7 @@ html,body{height:100%;background:#f4f7ff;color:#0f172a;overflow:hidden;}
             <th>Donor</th>
             <th>Campaign</th>
             <th># Donations</th>
-            <th>Total donated</th>
+            <th>Products donated</th>
             <th>Last donation</th>
             <th></th>
           </tr>
@@ -216,18 +231,82 @@ html,body{height:100%;background:#f4f7ff;color:#0f172a;overflow:hidden;}
 
 <div id="toast" class="toast"></div>
 
+<div class="modal-backdrop" id="logDonationModal">
+  <div class="modal-card">
+    <h2>Log a donation</h2>
+    <p class="sub">Confirm a donation you've already received. This updates the donor's history and the campaign's progress.</p>
+    <form id="logDonationForm">
+      <div class="modal-field">
+        <label>Donor</label>
+        <select id="logDonorSelect" required><option value="">Select a donor...</option></select>
+      </div>
+      <div class="modal-field">
+        <label>Campaign (optional)</label>
+        <select id="logCampaignSelect"><option value="">General (not tied to a campaign)</option></select>
+      </div>
+      <div class="modal-field" id="logProductsFields">
+        <label>Product</label>
+        <input type="text" id="logProductName" placeholder="e.g. Rice, backpacks..."/>
+      </div>
+      <div class="modal-field" id="logQuantityField">
+        <label>Quantity</label>
+        <input type="number" id="logQuantity" min="1" value="1"/>
+      </div>
+      <div class="modal-field" id="logAmountField" style="display:none;">
+        <label>Amount ($)</label>
+        <input type="number" id="logAmount" min="0" step="0.01" placeholder="0.00"/>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="filter-btn" onclick="closeLogModal()">Cancel</button>
+        <button type="submit" class="btn-log-donation">Save donation</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
 function escDF(x){var d=document.createElement('div');d.textContent=x||'';return d.innerHTML;}
 function initials(name){return (name||'').trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();}
 function fmtDate(d){ if(!d) return '—'; try{ return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }catch(e){ return '—'; } }
-function fmtMoney(n){ return '$' + (Number(n)||0).toLocaleString('en-US'); }
+function fmtQty(n){ const v = Number(n)||0; return v + (v === 1 ? ' product' : ' products'); }
+
+// Hope Hands conecta donantes con productos, no dinero (ver sql/schema.sql:
+// la tabla "donations" tiene product_name/quantity, sin ningún campo de monto).
+// getFoundationDonations() (js/donations.js) devuelve UNA FILA POR DONACIÓN;
+// aquí las agrupamos por donante para armar esta lista.
+function aggregateDonations(rows){
+  const map = {};
+  rows.forEach(r => {
+    const id = r.donor_id;
+    if(!map[id]){
+      map[id] = {
+        donorId: id,
+        name: (r.donor_profiles && r.donor_profiles.full_name) || 'Donor',
+        email: (r.donor_profiles && r.donor_profiles.email) || '',
+        campaigns: new Set(),
+        donationCount: 0,
+        totalProducts: 0,
+        lastDonationDate: r.created_at
+      };
+    }
+    const d = map[id];
+    d.donationCount += 1;
+    d.totalProducts += Number(r.quantity) || 0;
+    if(r.campaigns && r.campaigns.name) d.campaigns.add(r.campaigns.name);
+    if(new Date(r.created_at) > new Date(d.lastDonationDate)) d.lastDonationDate = r.created_at;
+  });
+  return Object.values(map).map(d => ({
+    ...d,
+    campaignName: d.campaigns.size ? [...d.campaigns].join(', ') : 'General'
+  }));
+}
 
 let allDonors = [];
 
 function renderDonors(list){
   const body = document.getElementById('donorsBody');
   document.getElementById('donorCount').textContent = allDonors.length;
-  document.getElementById('totalRaised').textContent = fmtMoney(allDonors.reduce((sum,d)=>sum+(Number(d.totalDonated)||0),0));
+  document.getElementById('totalRaised').textContent = fmtQty(allDonors.reduce((sum,d)=>sum+(Number(d.totalProducts)||0),0));
 
   if(!list.length){
     body.innerHTML = '<tr><td colspan="6"><div class="empty-state">No donors match this search yet.</div></td></tr>';
@@ -247,7 +326,7 @@ function renderDonors(list){
       </td>
       <td><span class="campaign-tag">${escDF(d.campaignName || 'General')}</span></td>
       <td>${d.donationCount || 0}</td>
-      <td class="amount-cell">${fmtMoney(d.totalDonated)}</td>
+      <td class="amount-cell">${fmtQty(d.totalProducts)}</td>
       <td>${fmtDate(d.lastDonationDate)}</td>
       <td><button class="btn-msg" data-did="${d.donorId}">Message</button></td>
     </tr>
@@ -284,7 +363,7 @@ function applyFilter(mode, q){
       return dt.getMonth() === now.getMonth() && dt.getFullYear() === now.getFullYear();
     });
   } else if(mode === 'top'){
-    list = [...list].sort((a,b) => (b.totalDonated||0) - (a.totalDonated||0)).slice(0, 10);
+    list = [...list].sort((a,b) => (b.totalProducts||0) - (a.totalProducts||0)).slice(0, 10);
   }
   renderDonors(list);
 }
@@ -323,12 +402,91 @@ function syncUserUI(){
   __hhFoundationProfile = await getFoundationProfile();
   syncUserUI();
 
-  // getFoundationDonors() debe vivir en js/donations.js (o profiles.js) y
-  // devolver un arreglo de donantes reales de ESTA fundación, con esta forma:
-  // { donorId, name, email, campaignName, donationCount, totalDonated, lastDonationDate }
-  allDonors = await getFoundationDonors();
+  // getFoundationDonations() ya existe en js/donations.js — devuelve una fila
+  // por cada donación de producto recibida por esta fundación. La agregamos
+  // por donante aquí mismo (ver aggregateDonations arriba).
+  const rows = await getFoundationDonations();
+  allDonors = aggregateDonations(rows);
   renderDonors(allDonors);
+
+  currentFoundationId = user.id;
+  await loadLogModalOptions();
 })();
+
+// ============================================================================
+// "Log a donation": la fundación confirma que ya recibió lo que un donador
+// le ofreció por Messages. Esto crea la fila real en "donations" (ver
+// createDonation en js/donations.js) — sin esto, el progreso de las
+// campañas (raised) nunca se mueve, porque nada más llama a esa función.
+// ============================================================================
+let currentFoundationId = null;
+let logCampaigns = [];
+
+async function loadLogModalOptions(){
+  const [conversations, campaigns] = await Promise.all([
+    getFoundationConversations(),
+    getFoundationCampaigns()
+  ]);
+  logCampaigns = campaigns;
+
+  const donorSelect = document.getElementById('logDonorSelect');
+  donorSelect.innerHTML = '<option value="">Select a donor...</option>' +
+    conversations.map(c => `<option value="${c.donorId}">${escDF(c.donorName)}</option>`).join('');
+
+  const campaignSelect = document.getElementById('logCampaignSelect');
+  campaignSelect.innerHTML = '<option value="">General (not tied to a campaign)</option>' +
+    campaigns.map(c => `<option value="${c.id}" data-goal-type="${c.goalType}">${escDF(c.name)}</option>`).join('');
+}
+
+function openLogModal(){
+  document.getElementById('logDonationModal').classList.add('show');
+}
+function closeLogModal(){
+  document.getElementById('logDonationModal').classList.remove('show');
+  document.getElementById('logDonationForm').reset();
+  toggleLogFields();
+}
+
+// Muestra Producto+Cantidad o Monto según el tipo de meta de la campaña elegida.
+// Sin campaña (General), asumimos productos por default.
+function toggleLogFields(){
+  const opt = document.getElementById('logCampaignSelect').selectedOptions[0];
+  const isMoney = opt && opt.dataset.goalType === 'money';
+  document.getElementById('logProductsFields').style.display = isMoney ? 'none' : '';
+  document.getElementById('logQuantityField').style.display = isMoney ? 'none' : '';
+  document.getElementById('logAmountField').style.display = isMoney ? '' : 'none';
+}
+document.getElementById('logCampaignSelect').addEventListener('change', toggleLogFields);
+
+document.getElementById('logDonationForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const donorId = document.getElementById('logDonorSelect').value;
+  if(!donorId){ showToast('Please select a donor.'); return; }
+  const campaignId = document.getElementById('logCampaignSelect').value || null;
+  const opt = document.getElementById('logCampaignSelect').selectedOptions[0];
+  const isMoney = opt && opt.dataset.goalType === 'money';
+
+  const payload = {
+    donorId: donorId,
+    foundationId: currentFoundationId,
+    campaignId: campaignId
+  };
+  if(isMoney){
+    payload.amount = parseFloat(document.getElementById('logAmount').value) || 0;
+  } else {
+    payload.productName = document.getElementById('logProductName').value.trim() || null;
+    payload.quantity = parseInt(document.getElementById('logQuantity').value, 10) || 1;
+  }
+
+  const result = await createDonation(payload);
+  if(!result.ok) return;
+
+  showToast('Donation logged!');
+  closeLogModal();
+  const rows = await getFoundationDonations();
+  allDonors = aggregateDonations(rows);
+  renderDonors(allDonors);
+});
 </script>
 </body>
 </html>
