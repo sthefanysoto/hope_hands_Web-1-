@@ -77,7 +77,13 @@ async function getFoundationSupportRequests() {
 
 // ---- Donaciones -------------------------------------------------------------
 
-// data: { foundationId, campaignId, productName, quantity }
+// data: { foundationId, campaignId, productName, quantity, amount }
+// Para campañas de productos (goal_type='products'): manda productName + quantity.
+// Para campañas de dinero (goal_type='money'): manda amount (quantity se ignora
+// para el progreso, pero la columna es NOT NULL así que se manda 1 por defecto).
+// El trigger on_donation_change (ver sql/donations_amount_addon.sql) es quien
+// decide cuál de los dos usar para sumarlo a campaigns.raised, según el
+// goal_type real de la campaña — no hace falta que el frontend lo calcule.
 async function createDonation(data) {
     const user = await getCurrentUser();
     if (!user) { showToast("You must be logged in to donate."); return { ok: false }; }
@@ -86,8 +92,9 @@ async function createDonation(data) {
         donor_id: user.id,
         foundation_id: data.foundationId,
         campaign_id: data.campaignId || null,
-        product_name: data.productName,
-        quantity: data.quantity || 1
+        product_name: data.productName || null,
+        quantity: data.quantity || 1,
+        amount: data.amount != null ? data.amount : null
     });
 
     if (error) { console.error(error); showToast("Could not register the donation: " + error.message); return { ok: false, error }; }
