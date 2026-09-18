@@ -328,7 +328,7 @@ function renderFoundationCards(list){
     const gradients = ['linear-gradient(135deg,#dbeafe,#dbeafecc)','linear-gradient(135deg,#dcfce7,#dcfce7cc)','linear-gradient(135deg,#fef3c7,#fef3c7cc)','linear-gradient(135deg,#fee2e2,#fee2e2cc)','linear-gradient(135deg,#f3e8ff,#f3e8ffcc)'];
     return `<div class="found-card" data-cat="${escDF((f.category||'').toLowerCase())}" data-name="${escDF(f.name.toLowerCase())}" data-fid="${f.userId}">
         <div class="found-card-top" style="background:${gradients[i%gradients.length]}">
-          <div class="found-logo">${house}</div>
+          <div class="found-logo">🏠</div>
           <div class="found-header">
             <div class="found-name" style="color:#1a3d7a">${escDF(f.name)}</div>
             <div class="found-location" style="color:#1a3d7a99">
@@ -378,7 +378,7 @@ function renderMapMarkers(list){
       .addTo(map)
       .bindPopup(`
         <div class="map-popup">
-          <div class="mp-name">${house} ${escDF(f.name)}</div>
+          <div class="mp-name">🏠 ${escDF(f.name)}</div>
           <div class="mp-loc">📍 ${escDF(f.address||'')}</div>
           <button class="mp-btn" data-fid="${f.userId}">View Details</button>
         </div>
@@ -456,7 +456,9 @@ function showToast(message){const t=document.getElementById('toast');if(!t)retur
 syncUserUI();
 
 </script>
-<script src="hope-hands-ui.js">function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('veil').classList.add('on');}
+<script src="hope-hands-ui.js"></script>
+<script>
+function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('veil').classList.add('on');}
 function closeSB(){document.getElementById('sb').classList.remove('open');document.getElementById('veil').classList.remove('on');}
 </script><div id="toast" class="toast"></div>
 <script>
