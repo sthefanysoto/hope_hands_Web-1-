@@ -36,7 +36,9 @@
 </head>
 <body>
 <div class="app">
-<aside class="sidebar">
+<button class="ham" onclick="openSB()"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+<div class="veil" id="veil" onclick="closeSB()"></div>
+<aside class="sidebar" id="sb">
   <div class="sb-top">
     <a href="../home.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:8px;color:#fff;">
       <img src="../logo.png" class="sb-logo" alt="Hope Hands"/>
@@ -285,6 +287,10 @@ document.getElementById('cancelSubBtn').addEventListener('click', async function
   if(window.hhSyncFoundation) window.hhSyncFoundation();
   await applyPlanState();
 })();
+</script>
+<script>
+function openSB(){document.getElementById('sb').classList.add('open');document.getElementById('veil').classList.add('on');}
+function closeSB(){document.getElementById('sb').classList.remove('open');document.getElementById('veil').classList.remove('on');}
 </script>
 </body>
 </html>
